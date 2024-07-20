@@ -1,8 +1,8 @@
 {
-  "name": "home",
-  "author": "imsyy",
-  "github": "https://github.com/imsyy/home",
-  "home": "https://imsyy.top",
+  "name": "homepage",
+  "author": "marxchou",
+  "github": "https://github.com/Smart-Chou/homepage",
+  "home": "https://marxchou.com",
   "private": true,
   "version": "4.1.4",
   "type": "module",
