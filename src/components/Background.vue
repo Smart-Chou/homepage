@@ -46,6 +46,8 @@ const changeBg = (type) => {
     bgUrl.value = "https://api.vvhan.com/api/wallpaper/views";
   } else if (type == 3) {
     bgUrl.value = "https://api.vvhan.com/api/wallpaper/acg";
+  } else if (type == 4) {
+    bgUrl.value = "https://pic.mch.icu/images";
   }
 };
 
