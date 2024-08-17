@@ -24,6 +24,7 @@
       <!-- 可在此处自定义任意内容 -->
       <TimeCapsule />
       <MoreContent />
+      <SiteUptime />
     </div>
   </div>
 </template>
@@ -32,6 +33,7 @@
 import { CloseOne, SettingTwo } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 import TimeCapsule from "@/components/TimeCapsule.vue";
+import SiteUptime from "@/components/SiteUptime.vue";
 import MoreContent from "@/components/MoreContent.vue";
 
 const store = mainStore();
