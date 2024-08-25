@@ -38,12 +38,12 @@
       getStatusText(status) {
       switch (status) {
         case 2:
-          return 'On';
+          return 'Up';
         case 9:
-          return 'Off';
+          return 'Down';
         case 0:
         default:
-          return 'Down';
+          return 'offline';
       }
     }
     },
