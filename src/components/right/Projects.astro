@@ -1,0 +1,109 @@
+---
+import projects from '../../config/projects.json';
+---
+
+<div class="projects-card item-card">
+  <h2 class="section-title">
+    <svg width="26" height="26" viewBox="0 0 1024 1024" style="fill:var(--fill);margin-right:8px;">
+      <path d="M629.333333 202.666667v213.333333h277.333334v448h-512v-213.333333h-277.333334v-448h512z m213.333334 277.333333h-213.333334v170.666667h-170.666666v149.333333h384v-320z m-277.333334-213.333333h-384v320h213.333334v-170.666667h170.666666v-149.333333z m0 213.333333h-106.666666v106.666667h106.666666v-106.666667z"/>
+    </svg>
+    project
+  </h2>
+
+  {projects.length === 0 ? (
+    <div class="empty-hint">添加项目到 src/config/projects.json</div>
+  ) : (
+    <div class="project-grid">
+      {projects.map((project: { name: string; desc: string; url: string; icon?: string }) => (
+        <a href={project.url} target="_blank" rel="noopener noreferrer" class="project-card">
+          <div class="project-left">
+            <h3 class="project-name">{project.name}</h3>
+            <p class="project-desc">{project.desc}</p>
+          </div>
+          {project.icon && (
+            <div class="project-right">
+              <img src={project.icon} alt={project.name} width="32" height="32" />
+            </div>
+          )}
+        </a>
+      ))}
+    </div>
+  )}
+</div>
+
+<style>
+  .projects-card {
+    padding: 20px;
+  }
+  .project-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .project-card {
+    width: calc(50% - 4px);
+    display: flex;
+    background: var(--item_bg_color);
+    backdrop-filter: blur(var(--card_filter));
+    -webkit-backdrop-filter: blur(var(--card_filter));
+    border-radius: 8px;
+    padding: 12px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  .project-card:hover {
+    transform: translateY(-2px);
+    background: var(--item_hover_color);
+  }
+  .project-left {
+    flex: 1;
+    min-width: 0;
+  }
+  .project-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--item_left_title_color);
+    margin-bottom: 4px;
+    transition: font-size 0.3s ease;
+  }
+  .project-card:hover .project-name {
+    font-size: 16px;
+  }
+  .project-desc {
+    font-size: 11px;
+    color: var(--item_left_text_color);
+    line-height: 1.4;
+  }
+  .project-right {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .project-card:hover .project-right img {
+    transform: rotate(10deg);
+  }
+  .project-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .empty-hint {
+    color: var(--item_left_text_color);
+    font-size: 13px;
+    padding: 12px 0;
+  }
+
+  @media (max-width: 800px) {
+    .project-card {
+      width: 100%;
+    }
+  }
+</style>
