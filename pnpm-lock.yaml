@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@astrojs/check':
-        specifier: ^0.9.9
-        version: 0.9.9(prettier@3.8.3)(typescript@6.0.3)
       '@astrojs/preact':
         specifier: ^5.1.4
         version: 5.1.4(@babel/core@7.29.7)(preact@10.29.2)(rollup@4.61.0)(yaml@2.9.0)
@@ -20,6 +17,10 @@ importers:
       preact:
         specifier: ^10.29.2
         version: 10.29.2
+    devDependencies:
+      '@astrojs/check':
+        specifier: ^0.9.9
+        version: 0.9.9(prettier@3.8.3)(typescript@6.0.3)
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
