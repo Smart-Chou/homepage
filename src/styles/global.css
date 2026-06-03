@@ -1,0 +1,93 @@
+/*
+ * Reset + fonts + animations
+ * Fonts: HarmonyOS Sans (CDN), Pacifico-Regular (local), Ubuntu (local)
+ * Animations: from ZYYO666 + 無名
+ */
+
+/* HarmonyOS Sans — from Bilibili CDN (same as 無名) */
+@import url('https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css');
+
+/* Pacifico-Regular — English title font */
+@font-face {
+  font-family: "Pacifico-Regular";
+  font-display: swap;
+  src: url("/font/Pacifico-Regular.ttf") format("truetype");
+}
+
+/* Ubuntu-Regular — fallback English font */
+@font-face {
+  font-family: "Ubuntu-Regular";
+  font-display: swap;
+  src: url("/font/Ubuntu-Regular.ttf") format("truetype");
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "HarmonyOS_Regular", "Ubuntu-Regular", sans-serif;
+  background-color: #111;
+  color: var(--main_text_color);
+  transition: background-color 0.2s ease, color 0.1s ease;
+}
+
+a, a:hover, a:link, a:visited, a:active, a:focus {
+  text-decoration: none;
+  outline: none;
+  border: none;
+  color: inherit;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* Scrollbar (hidden, as in ZYYO666) */
+::-webkit-scrollbar { width: 0px; }
+::-webkit-scrollbar-thumb {
+  background-color: var(--main_text_color);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* ===== Keyframe Animations ===== */
+
+/* Loading: ZYYO666 zoom pulse */
+@keyframes zoom {
+  0%   { transform: scale(0); opacity: 1; }
+  50%  { opacity: 0.5; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* Page entrance: 無名 fade-blur-in */
+@keyframes fade-blur-in {
+  from {
+    filter: blur(20px) brightness(0.3);
+    transform: scale(1.6);
+  }
+  to {
+    filter: blur(0) brightness(1);
+    transform: scale(1);
+  }
+}
+
+/* Fade */
+@keyframes fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Gradient title shift: ZYYO666 backgroundSizeAnimation */
+@keyframes bgShift {
+  0%   { background-position: 0%; }
+  50%  { background-position: 100%; }
+  100% { background-position: 0%; }
+}
