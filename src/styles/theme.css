@@ -1,0 +1,52 @@
+/*
+ * CSS Variables — inherited from ZYYO666 dark theme
+ * Switch via html[data-theme="Light"] for future light mode
+ */
+
+:root {
+  /* Text */
+  --main_text_color: #fff;
+  --footer_text_color: #646464;
+
+  /* Gradient title — ZYYO666 signature */
+  --gradient: linear-gradient(120deg, rgb(133, 62, 255), #f76cc6 30%, rgb(255, 255, 255) 60%);
+
+  /* Accent */
+  --purple_text_color: #747bff;
+  --text_bg_color: rgb(26, 4, 48);
+
+  /* Cards */
+  --item_bg_color: rgb(19, 20, 24);
+  --item_hover_color: rgb(19, 23, 27);
+  --item_left_title_color: rgb(255, 255, 255);
+  --item_left_text_color: rgb(142, 142, 142);
+
+  /* Tags */
+  --left_tag_item: linear-gradient(50deg, #1f2327, #000000);
+
+  /* Blur filters */
+  --card_filter: 10px;
+  --back_filter: 0px;
+  --back_filter_color: #000000;
+
+  /* SVG icon fill */
+  --fill: #ffffff;
+}
+
+/* Future light theme switch */
+html[data-theme="Light"] {
+  --main_text_color: #000000;
+  --gradient: linear-gradient(120deg, #bd34fe, #e0321b 30%, #41d1ff 60%);
+  --purple_text_color: #747bff;
+  --text_bg_color: rgb(240, 243, 247);
+  --item_bg_color: rgb(247, 247, 247);
+  --item_hover_color: rgba(244, 245, 246, 0.5);
+  --item_left_title_color: #000000;
+  --item_left_text_color: #494949;
+  --footer_text_color: #222222;
+  --left_tag_item: #ffffff;
+  --card_filter: 0px;
+  --back_filter: 0px;
+  --back_filter_color: #00000000;
+  --fill: #000000;
+}
