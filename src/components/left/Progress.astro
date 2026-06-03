@@ -1,0 +1,64 @@
+---
+// Year progress bar — computed client-side with inline script
+const now = new Date();
+const year = now.getFullYear();
+const startOfYear = new Date(year, 0, 1).getTime();
+const endOfYear = new Date(year + 1, 0, 1).getTime();
+const elapsed = now.getTime() - startOfYear;
+const total = endOfYear - startOfYear;
+const initialPercent = ((elapsed / total) * 100).toFixed(1);
+---
+
+<div class="progress-card item-card">
+  <div class="progress-header">
+    <span>⏳ {year}</span>
+    <span id="progress-percent">{initialPercent}%</span>
+  </div>
+  <div class="progress-bar">
+    <div id="progress-fill" class="progress-fill" style={`width:${initialPercent}%`}></div>
+  </div>
+</div>
+
+<style>
+  .progress-card {
+    padding: 14px;
+  }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--item_left_text_color);
+    margin-bottom: 6px;
+  }
+  .progress-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #a78bfa);
+    border-radius: 3px;
+    transition: width 0.1s linear;
+  }
+</style>
+
+<script>
+  // Update progress client-side
+  const year = new Date().getFullYear();
+  const start = new Date(year, 0, 1).getTime();
+  const end = new Date(year + 1, 0, 1).getTime();
+  const total = end - start;
+
+  function update() {
+    const percent = ((Date.now() - start) / total * 100).toFixed(1);
+    const fill = document.getElementById('progress-fill');
+    const text = document.getElementById('progress-percent');
+    if (fill) fill.style.width = percent + '%';
+    if (text) text.textContent = percent + '%';
+  }
+
+  update();
+  setInterval(update, 60000); // update once per minute
+</script>
