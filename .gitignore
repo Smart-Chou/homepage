@@ -5,3 +5,4 @@ node_modules/
 home/
 homepage/
 .DS_Store
+.astro/

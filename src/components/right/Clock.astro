@@ -1,21 +1,18 @@
-<!-- Real-time clock + weather -->
-<div id="func-clock" class="time-weather cards">
+<!-- Real-time clock -->
+<div id="func-clock" class="clock-card cards">
   <div class="time">
     <div id="clock-date" class="date"></div>
     <div id="clock-time" class="text"></div>
   </div>
-  <div id="weather-info" class="weather">
-    <span>天气加载中...</span>
-  </div>
 </div>
 
 <style>
-  .time-weather {
+  .clock-card {
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     animation: fade 0.5s;
     height: 100%;
   }
@@ -33,13 +30,6 @@
     font-size: 3.25rem;
     letter-spacing: 2px;
     font-family: 'UnidreamLED';
-  }
-  .weather {
-    text-align: center;
-    width: 100%;
-    text-overflow: ellipsis;
-    overflow-x: hidden;
-    white-space: nowrap;
   }
   @media (min-width: 1201px) and (max-width: 1280px) {
     .time { font-size: 1rem; }
@@ -71,24 +61,4 @@
 
   updateClock();
   setInterval(updateClock, 1000);
-
-  // Weather — wttr.in
-  async function fetchWeather() {
-    const weatherEl = document.getElementById('weather-info');
-    if (!weatherEl) return;
-    try {
-      const city = 'Shenzhen';
-      const res = await fetch(`https://wttr.in/${encodeURIComponent(city)}?format=j1`);
-      if (!res.ok) throw new Error('Weather unavailable');
-      const data = await res.json();
-      const current = data.current_condition?.[0];
-      if (!current) throw new Error('No data');
-      const cityName = data.nearest_area?.[0]?.areaName?.[0]?.value || city;
-      weatherEl.innerHTML = `<span>${cityName} ${current.weatherDesc?.[0]?.value || ''} ${current.temp_C}℃ ${current.winddir16Point || ''}风 ${current.windspeedKmph || ''} km/h</span>`;
-    } catch {
-      weatherEl.innerHTML = '<span>天气数据获取失败</span>';
-    }
-  }
-
-  fetchWeather();
 </script>
