@@ -1,0 +1,67 @@
+<div id="desc-card" class="description cards">
+  <div class="content">
+    <svg class="quote-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" opacity="0.6">
+      <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311C9.591 11.69 11 13.2 11 15c0 1.658-1.342 3-3 3-1.404 0-2.55-.736-3.417-1.679zm9 0C12.553 16.227 12 15 12 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311C18.591 11.69 20 13.2 20 15c0 1.658-1.342 3-3 3-1.404 0-2.55-.736-3.417-1.679z"/>
+    </svg>
+    <div id="desc-text" class="text">
+      <p id="desc-hello"></p>
+      <p id="desc-body"></p>
+    </div>
+    <svg class="quote-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" opacity="0.6" style="align-self:flex-end">
+      <path d="M19.417 6.679C20.447 7.773 21 9 21 10.989c0 3.5-2.457 6.637-6.03 8.188l-.893-1.378c3.335-1.804 3.987-4.145 4.247-5.621-.537.278-1.24.375-1.929.311C14.409 12.31 13 10.8 13 9c0-1.658 1.342-3 3-3 1.404 0 2.55.736 3.417 1.679zm-9 0C11.447 7.773 12 9 12 10.989c0 3.5-2.457 6.637-6.03 8.188l-.893-1.378c3.335-1.804 3.987-4.145 4.247-5.621-.537.278-1.24.375-1.929.311C5.409 12.31 4 10.8 4 9c0-1.658 1.342-3 3-3 1.404 0 2.55.736 3.417 1.679z"/>
+    </svg>
+  </div>
+</div>
+
+<style>
+  .description {
+    padding: 1rem;
+    margin-top: 3.5rem;
+    max-width: 460px;
+    animation: fade 0.5s;
+  }
+  .content {
+    display: flex;
+    justify-content: space-between;
+  }
+  .text {
+    margin: 0.75rem 1rem;
+    line-height: 2rem;
+    margin-right: auto;
+  }
+  .text p:first-child {
+    font-family: 'Pacifico-Regular';
+  }
+  .quote-icon {
+    flex-shrink: 0;
+  }
+  @media (max-width: 720px) {
+    .description {
+      max-width: 100%;
+      pointer-events: none;
+    }
+  }
+</style>
+
+<script>
+  const descHello = document.getElementById('desc-hello');
+  const descBody = document.getElementById('desc-body');
+  const descCard = document.getElementById('desc-card');
+
+  const mainHello = 'Hello World !';
+  const mainText = '一个建立于 21 世纪的小站，存活于互联网的边缘';
+  const altHello = 'Oops !';
+  const altText = '哎呀，这都被你发现了（ 再点击一次可关闭 ）';
+
+  let boxOpen = false;
+
+  descHello.textContent = mainHello;
+  descBody.textContent = mainText;
+
+  descCard?.addEventListener('click', () => {
+    if (window.innerWidth < 721) return;
+    boxOpen = !boxOpen;
+    descHello.textContent = boxOpen ? altHello : mainHello;
+    descBody.textContent = boxOpen ? altText : mainText;
+  });
+</script>

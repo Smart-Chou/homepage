@@ -1,0 +1,50 @@
+---
+const siteUrl = 'mcc.im';
+const [domain, tld] = siteUrl.split('.');
+---
+
+<div class="logo">
+  <img class="logo-img" src="/images/logo.png" alt="logo" onerror="this.src='/images/avatar.webp'" />
+  <div class="name text-hidden">
+    <span class="bg">{domain}</span>
+    <span class="sm">.{tld}</span>
+  </div>
+</div>
+
+<style>
+  .logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    animation: fade 0.5s;
+    max-width: 460px;
+  }
+  .logo-img {
+    border-radius: 50%;
+    width: 120px;
+  }
+  .name {
+    width: 100%;
+    padding-left: 22px;
+    transform: translateY(-8px);
+    font-family: 'Pacifico-Regular';
+  }
+  .bg {
+    font-size: 5rem;
+  }
+  .sm {
+    margin-left: 6px;
+    font-size: 2rem;
+  }
+  @media (max-width: 768px) {
+    .logo-img { width: 100px; }
+    .name { height: 128px; }
+    .bg { font-size: 4.5rem; }
+  }
+  @media (max-width: 720px) {
+    .logo { max-width: 100%; }
+  }
+  @media (min-width: 721px) and (max-width: 789px) {
+    .sm { display: none; }
+  }
+</style>

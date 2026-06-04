@@ -1,18 +1,68 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
-import Avatar from '../components/Avatar.astro';
-import Intro from '../components/Intro.astro';
-import LinkGrid from '../components/LinkGrid.astro';
-import SocialLinks from '../components/SocialLinks.astro';
+import Background from '../components/Background.astro';
+import Logo from '../components/Left/Logo.astro';
+import Description from '../components/Left/Description.astro';
+import SocialBar from '../components/Left/SocialBar.astro';
+import Clock from '../components/Right/Clock.astro';
+import Hitokoto from '../components/Right/Hitokoto.astro';
+import Music from '../components/Right/Music.astro';
+import SiteLinks from '../components/Right/SiteLinks.astro';
 import Footer from '../components/Footer.astro';
 ---
 
 <MainLayout>
-  <ThemeToggle slot="toggle" />
-  <Avatar />
-  <Intro />
-  <LinkGrid />
-  <SocialLinks />
-  <Footer />
+  <Background slot="background" />
+
+  <!-- Left Column -->
+  <div slot="left" id="left-col" class="left-col">
+    <Logo />
+    <Description />
+    <SocialBar />
+  </div>
+
+  <!-- Right Column -->
+  <div slot="right" id="right-col" class="right-col">
+    <!-- Function Area: Hitokoto/Music + Clock/Weather -->
+    <div class="func-row">
+      <div class="func-left">
+        <Hitokoto />
+        <Music />
+      </div>
+      <div class="func-right">
+        <Clock />
+      </div>
+    </div>
+    <!-- Site Links Grid -->
+    <SiteLinks />
+  </div>
+
+  <!-- Mobile toggle button -->
+  <button slot="footer" id="mobile-toggle" class="menu-btn" aria-label="切换栏目">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+    </svg>
+  </button>
+
+  <Footer slot="footer" />
 </MainLayout>
+
+<script>
+  // Mobile toggle between left/right columns
+  const mobileToggle = document.getElementById('mobile-toggle');
+  const leftCol = document.getElementById('left-col');
+  const rightCol = document.getElementById('right-col');
+
+  let showingLeft = true;
+
+  mobileToggle?.addEventListener('click', () => {
+    showingLeft = !showingLeft;
+    if (showingLeft) {
+      leftCol?.classList.remove('hidden');
+      rightCol?.classList.add('hidden');
+    } else {
+      leftCol?.classList.add('hidden');
+      rightCol?.classList.remove('hidden');
+    }
+  });
+</script>

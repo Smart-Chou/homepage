@@ -1,0 +1,117 @@
+<!-- Hitokoto (one-sentence poem) card — toggles to music player -->
+<div id="hitokoto-card" class="hitokoto cards">
+  <div id="open-music-btn" class="open-music" style="display:none">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#efefef">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+    </svg>
+    <span>打开音乐播放器</span>
+  </div>
+  <div id="hitokoto-content" class="content">
+    <span id="hitokoto-text" class="text">这里应该显示一句话</span>
+    <span id="hitokoto-from" class="from">-「 無名 」</span>
+  </div>
+</div>
+
+<style>
+  .hitokoto {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    position: relative;
+    animation: fade 0.5s;
+  }
+  .open-music {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #00000026;
+    padding: 4px 0;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    gap: 8px;
+  }
+  .open-music span {
+    font-size: 0.95rem;
+  }
+  .content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    cursor: pointer;
+  }
+  .text {
+    font-size: 1.1rem;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .from {
+    margin-top: 10px;
+    font-weight: bold;
+    align-self: flex-end;
+    font-size: 1.1rem;
+  }
+</style>
+
+<script>
+  const hitokotoText = document.getElementById('hitokoto-text');
+  const hitokotoFrom = document.getElementById('hitokoto-from');
+  const hitokotoContent = document.getElementById('hitokoto-content');
+  const openMusicBtn = document.getElementById('open-music-btn');
+  const hitokotoCard = document.getElementById('hitokoto-card');
+
+  let fetching = false;
+
+  async function fetchHitokoto() {
+    if (fetching) return;
+    fetching = true;
+    try {
+      const res = await fetch('https://v1.hitokoto.cn');
+      if (!res.ok) throw new Error('API error');
+      const data = await res.json();
+      if (hitokotoText) hitokotoText.textContent = data.hitokoto;
+      if (hitokotoFrom) hitokotoFrom.textContent = `-「 ${data.from || '佚名'} 」`;
+    } catch {
+      if (hitokotoText) hitokotoText.textContent = '人生は一期一会';
+      if (hitokotoFrom) hitokotoFrom.textContent = '-「 無名 」';
+    }
+    fetching = false;
+  }
+
+  fetchHitokoto();
+
+  // Click to refresh
+  hitokotoContent?.addEventListener('click', () => {
+    fetchHitokoto();
+  });
+
+  // Show music button on hover (if music is loaded)
+  hitokotoCard?.addEventListener('mouseenter', () => {
+    if (window.__musicLoaded && openMusicBtn) {
+      openMusicBtn.style.display = 'flex';
+    }
+  });
+  hitokotoCard?.addEventListener('mouseleave', () => {
+    if (openMusicBtn) openMusicBtn.style.display = 'none';
+  });
+
+  // Open music panel
+  openMusicBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    // Will be wired to music component
+    const musicPanel = document.getElementById('music-panel');
+    if (musicPanel) {
+      hitokotoCard.style.display = 'none';
+      musicPanel.style.display = 'flex';
+    }
+  });
+</script>

@@ -1,114 +1,128 @@
+@charset "utf-8";
+
+/* HarmonyOS Sans — from Bilibili CDN */
+@import url('https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css');
+
 /*
- * mcc.im Global Styles
- * Typography: Archivo (heading) + Space Grotesk (body)
- * Motion-Driven Minimalism
+ * mcc.im — Ported from imsyy/home
+ * Dark theme with wallpaper background + blur cards
  */
 
-/* Google Fonts — Archivo + Space Grotesk */
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+/* ===== Fonts ===== */
+@font-face {
+  font-family: 'Pacifico-Regular';
+  font-display: swap;
+  src: url('/font/Pacifico-Regular.ttf') format('truetype');
+}
 
-*,
-*::before,
-*::after {
+@font-face {
+  font-family: 'UnidreamLED';
+  font-display: swap;
+  src: url('/font/UnidreamLED.ttf') format('truetype');
+}
+
+/* ===== Reset ===== */
+html,
+body {
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #333;
+  overflow: hidden;
+  font-family: 'HarmonyOS_Regular', sans-serif;
+}
+
+*,
+a,
+p {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  text-decoration: none;
+  color: #fff;
   box-sizing: border-box;
 }
 
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
+a:hover {
+  color: rgb(57, 159, 255);
+  text-decoration: underline;
+  transition: 0.3s;
 }
 
-body {
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'PingFang SC',
-    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
-  transition: background 0.35s ease, color 0.35s ease;
+/* ===== App Shell ===== */
+#app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Archivo', 'Space Grotesk', -apple-system, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+/* ===== Card Style ===== */
+.cards {
+  border-radius: 6px;
+  background-color: #00000040;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: scale(1);
+  transition:
+    backdrop-filter 0.3s,
+    transform 0.3s;
+}
+.cards:hover {
+  transform: scale(1.01);
+}
+.cards:active {
+  transform: scale(0.98);
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+/* ===== Utility ===== */
+.text-hidden {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
 }
-
-/* Scrollbar — subtle, theme-aware */
-::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::selection {
-  background: var(--accent);
-  color: #fff;
+  border-radius: 10px;
+  background-color: #eeeeee;
 }
 
 /* ===== Animations ===== */
-
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fade-scale {
-  from { opacity: 0; transform: scale(0.94); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-@keyframes fade-in {
+@keyframes fade {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-/* Utility: animate on enter (via Intersection Observer) */
-.animate-on-enter {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.animate-on-enter.visible {
-  opacity: 1;
-  transform: translateY(0);
+@keyframes fade-blur-in {
+  from {
+    filter: blur(20px) brightness(0.3);
+    transform: scale(1.6);
+  }
+  to {
+    filter: blur(0) brightness(1);
+    transform: scale(1);
+  }
 }
 
-/* Stagger delay helpers */
-.delay-1 { transition-delay: 0.05s; }
-.delay-2 { transition-delay: 0.1s; }
-.delay-3 { transition-delay: 0.15s; }
-.delay-4 { transition-delay: 0.2s; }
-.delay-5 { transition-delay: 0.25s; }
+@keyframes fade-blur-main-in {
+  from { transform: scale(1.2); }
+  to   { transform: scale(1); }
+}
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  .animate-on-enter {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
+/* ===== Responsive helpers ===== */
+@media (max-width: 720px) {
+  .xs-hidden { display: none; }
+}
+
+@media (min-width: 910px) and (max-width: 1200px) {
+  .sm-hidden { display: none; }
 }

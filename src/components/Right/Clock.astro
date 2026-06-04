@@ -1,0 +1,94 @@
+<!-- Real-time clock + weather -->
+<div id="func-clock" class="time-weather cards">
+  <div class="time">
+    <div id="clock-date" class="date"></div>
+    <div id="clock-time" class="text"></div>
+  </div>
+  <div id="weather-info" class="weather">
+    <span>天气加载中...</span>
+  </div>
+</div>
+
+<style>
+  .time-weather {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    animation: fade 0.5s;
+    height: 100%;
+  }
+  .time {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  .date {
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
+  }
+  .text {
+    margin-top: 10px;
+    font-size: 3.25rem;
+    letter-spacing: 2px;
+    font-family: 'UnidreamLED';
+  }
+  .weather {
+    text-align: center;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
+  }
+  @media (min-width: 1201px) and (max-width: 1280px) {
+    .time { font-size: 1rem; }
+  }
+  @media (min-width: 911px) and (max-width: 992px) {
+    .time { font-size: 1rem; }
+    .text { font-size: 2.75rem; }
+  }
+</style>
+
+<script>
+  const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+
+  function pad(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function updateClock() {
+    const now = new Date();
+    const dateEl = document.getElementById('clock-date');
+    const timeEl = document.getElementById('clock-time');
+    if (dateEl) {
+      dateEl.textContent = `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日 ${weekdays[now.getDay()]}`;
+    }
+    if (timeEl) {
+      timeEl.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    }
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Weather — wttr.in
+  async function fetchWeather() {
+    const weatherEl = document.getElementById('weather-info');
+    if (!weatherEl) return;
+    try {
+      const city = 'Shenzhen';
+      const res = await fetch(`https://wttr.in/${encodeURIComponent(city)}?format=j1`);
+      if (!res.ok) throw new Error('Weather unavailable');
+      const data = await res.json();
+      const current = data.current_condition?.[0];
+      if (!current) throw new Error('No data');
+      const cityName = data.nearest_area?.[0]?.areaName?.[0]?.value || city;
+      weatherEl.innerHTML = `<span>${cityName} ${current.weatherDesc?.[0]?.value || ''} ${current.temp_C}℃ ${current.winddir16Point || ''}风 ${current.windspeedKmph || ''} km/h</span>`;
+    } catch {
+      weatherEl.innerHTML = '<span>天气数据获取失败</span>';
+    }
+  }
+
+  fetchWeather();
+</script>

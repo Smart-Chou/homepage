@@ -1,0 +1,122 @@
+<!-- Background wallpaper with blur-in animation -->
+<div id="cover" class="cover">
+  <img id="bg-img" class="bg" src="" alt="cover" />
+  <div id="gray-overlay" class="gray"></div>
+  <a id="download-btn" class="down" href="#" target="_blank" style="display:none">下载壁纸</a>
+</div>
+
+<style>
+  .cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transition: 0.25s;
+  }
+  .cover.show {
+    z-index: 1;
+  }
+  .bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    backface-visibility: hidden;
+    filter: blur(20px) brightness(0.3);
+    transition: filter 0.3s, transform 0.3s;
+    animation: fade-blur-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation-delay: 0.45s;
+  }
+  .gray {
+    opacity: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.5) 100%),
+      radial-gradient(rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, 0.3) 166%);
+    transition: 1.5s;
+  }
+  .gray.hidden {
+    opacity: 0;
+  }
+  .down {
+    font-size: 16px;
+    color: white;
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 26px;
+    border-radius: 8px;
+    background-color: #00000030;
+    width: 120px;
+    height: 30px;
+  }
+  .down:hover {
+    transform: scale(1.05);
+    background-color: #00000060;
+  }
+  .down:active {
+    transform: scale(1);
+  }
+</style>
+
+<script>
+  // Wallpaper loading
+  const bgImg = document.getElementById('bg-img');
+  const downloadBtn = document.getElementById('download-btn');
+
+  // Random local background (1-10)
+  const bgRandom = Math.floor(Math.random() * 10 + 1);
+  const bgUrl = `/images/background${bgRandom}.jpg`;
+
+  function loadBackground() {
+    bgImg.src = bgUrl;
+    downloadBtn.href = bgUrl;
+
+    bgImg.onload = () => {
+      // Image loaded — animation handles the rest
+      setTimeout(() => {
+        document.getElementById('app')?.classList.add('loaded');
+      }, Math.floor(Math.random() * 300 + 300));
+    };
+
+    bgImg.onerror = () => {
+      console.error('壁纸加载失败：', bgUrl);
+      // Try Bing fallback
+      bgImg.src = 'https://api.dujin.org/bing/1920.php';
+    };
+  }
+
+  loadBackground();
+
+  // Middle-click to toggle wallpaper view
+  window.addEventListener('mousedown', (e) => {
+    if (e.button === 1) {
+      e.preventDefault();
+      const cover = document.getElementById('cover');
+      const gray = document.getElementById('gray-overlay');
+      const isShowing = cover.classList.contains('show');
+      if (isShowing) {
+        cover.classList.remove('show');
+        gray.classList.remove('hidden');
+        downloadBtn.style.display = 'none';
+      } else {
+        cover.classList.add('show');
+        gray.classList.add('hidden');
+        downloadBtn.style.display = 'flex';
+      }
+    }
+  });
+</script>

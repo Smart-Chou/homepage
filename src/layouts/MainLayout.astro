@@ -1,53 +1,147 @@
 ---
 import '../styles/global.css';
-import '../styles/theme.css';
 ---
 
 <!doctype html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mcc.im</title>
-    <link rel="icon" href="/favicon.svg" />
+    <link rel="icon" href="/images/icon/favicon.ico" />
     <meta name="description" content="mcc.im — 个人主页" />
+    <meta name="theme-color" content="#424242" />
+    <title>mcc.im</title>
 
-    <!-- Preconnect Google Fonts for faster loading -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://s1.hdslb.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   </head>
   <body>
-    <slot name="toggle" />
-    <main class="main">
-      <slot />
-    </main>
+    <div id="app">
+      <slot name="background" />
+      <main id="main">
+        <div class="container">
+          <div class="all">
+            <slot name="left" />
+            <slot name="right" />
+          </div>
+        </div>
+        <slot name="footer" />
+      </main>
+    </div>
   </body>
 </html>
 
 <style is:global>
-  .main {
+  #main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(1.2);
+    transition: transform 0.3s;
+    animation: fade-blur-main-in 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation-delay: 0.5s;
+  }
+  #main.loaded {
+    /* ready state */
+  }
+  .container {
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 0 0.5vw;
+    max-width: 1200px;
+  }
+  .all {
+    width: 100%;
+    height: 100%;
+    padding: 0 0.75rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Left column */
+  .left-col {
+    width: 50%;
+    margin-right: 10px;
+    transform: translateY(20px);
+  }
+  /* Right column */
+  .right-col {
+    width: 50%;
+    margin-left: 0.75rem;
     display: flex;
     flex-direction: column;
-    gap: 36px;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 100px 24px 0;
-    min-height: 100vh;
+    gap: 0;
+  }
+
+  /* Right func area — two sub-columns */
+  .func-row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 20px;
+    height: 165px;
+  }
+  .func-left {
+    width: 50%;
+  }
+  .func-right {
+    width: 50%;
+  }
+
+  /* Mobile toggle button */
+  .menu-btn {
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    bottom: 6%;
+    left: calc(50% - 28px);
+    width: 56px;
+    height: 34px;
+    background: rgb(0 0 0 / 20%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s;
+    animation: fade 0.5s;
+    color: #fff;
+    font-size: 18px;
+    z-index: 2;
+  }
+  .menu-btn:active {
+    transform: scale(0.95);
+  }
+
+  @media (max-width: 1200px) {
+    .container { max-width: 1100px; padding: 0 2vw; }
+  }
+  @media (max-width: 992px) {
+    .container { max-width: 900px; }
+  }
+  @media (max-width: 910px) {
+    .func-left { display: none; }
+    .func-right { width: 100%; }
+  }
+  @media (max-width: 720px) {
+    .left-col { margin-right: 0; width: 100%; }
+    .left-col.hidden { display: none; }
+    .right-col { margin-left: 0; width: 100%; }
+    .right-col.hidden { display: none; }
+    .menu-btn { display: flex; }
+  }
+  @media (max-height: 720px) {
+    #main { overflow-y: auto; overflow-x: hidden; }
+    .container { height: 721px; }
+  }
+  @media (max-width: 390px) {
+    #main { overflow-x: auto; }
+    .container { width: 391px; }
   }
 </style>
-
-<script>
-  // Intersection Observer — scroll-triggered entrance animations
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    },
-    { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
-  );
-
-  document.querySelectorAll('.animate-on-enter').forEach((el) => observer.observe(el));
-</script>

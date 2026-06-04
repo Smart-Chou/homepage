@@ -1,16 +1,60 @@
-<footer class="site-footer animate-on-enter delay-4">
-  <p>&copy; {new Date().getFullYear()} mcc.im &middot; Powered by Astro</p>
+---
+const startYear = '2020';
+const fullYear = new Date().getFullYear();
+const siteIcp = '';
+---
+
+<footer id="footer" class="site-footer">
+  <div class="power">
+    <span>
+      <span class="c-hidden">Copyright&nbsp;</span>
+      &copy;
+      {startYear < fullYear && <span class="site-start">{startYear}-</span>}
+      {fullYear}
+      <a href="https://mcc.im">MIFSH</a>
+    </span>
+    <span class="hidden">
+      &amp;&nbsp;Powered&nbsp;by Astro
+    </span>
+    {siteIcp && (
+      <span>
+        &amp;
+        <a href="https://beian.miit.gov.cn" target="_blank">{siteIcp}</a>
+      </span>
+    )}
+  </div>
 </footer>
 
 <style>
   .site-footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 46px;
+    line-height: 46px;
     text-align: center;
-    padding: 16px 0 40px;
-    margin-top: 8px;
+    z-index: 0;
+    font-size: 14px;
+    word-break: keep-all;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgb(0 0 0 / 25%);
   }
-  .site-footer p {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    font-weight: 400;
+  .power {
+    animation: fade 0.3s;
+  }
+  .power a {
+    color: #fff;
+  }
+  @media (max-width: 720px) {
+    .site-footer { font-size: 0.9rem; }
+  }
+  @media (max-width: 560px) {
+    .c-hidden { display: none; }
+  }
+  @media (max-width: 480px) {
+    .hidden { display: none; }
   }
 </style>
