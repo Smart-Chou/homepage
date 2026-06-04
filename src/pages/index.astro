@@ -1,13 +1,12 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import Background from '../components/Background.astro';
-import Logo from '../components/Left/Logo.astro';
-import Description from '../components/Left/Description.astro';
-import SocialBar from '../components/Left/SocialBar.astro';
-import Clock from '../components/Right/Clock.astro';
-import Hitokoto from '../components/Right/Hitokoto.astro';
-import Music from '../components/Right/Music.astro';
-import SiteLinks from '../components/Right/SiteLinks.astro';
+import Logo from '../components/left/Logo.astro';
+import Description from '../components/left/Description.astro';
+import SocialBar from '../components/left/SocialBar.astro';
+import Clock from '../components/right/Clock.astro';
+import Hitokoto from '../components/right/Hitokoto.astro';
+import SiteLinks from '../components/right/SiteLinks.astro';
 import Footer from '../components/Footer.astro';
 ---
 
@@ -23,11 +22,10 @@ import Footer from '../components/Footer.astro';
 
   <!-- Right Column -->
   <div slot="right" id="right-col" class="right-col">
-    <!-- Function Area: Hitokoto/Music + Clock/Weather -->
+    <!-- Function Area: Hitokoto + Clock/Weather -->
     <div class="func-row">
       <div class="func-left">
         <Hitokoto />
-        <Music />
       </div>
       <div class="func-right">
         <Clock />

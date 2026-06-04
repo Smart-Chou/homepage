@@ -126,8 +126,9 @@ import '../styles/global.css';
     .container { max-width: 900px; }
   }
   @media (max-width: 910px) {
-    .func-left { display: none; }
-    .func-right { width: 100%; }
+    .func-row { flex-direction: column; height: auto; gap: 14px; }
+    .func-left { width: 100%; height: 165px; }
+    .func-right { width: 100%; height: 165px; }
   }
   @media (max-width: 720px) {
     .left-col { margin-right: 0; width: 100%; }
@@ -145,3 +146,75 @@ import '../styles/global.css';
     .container { width: 391px; }
   }
 </style>
+
+<script>
+  // ===== Welcome greeting =====
+  const hour = new Date().getHours();
+  let hello;
+  if (hour < 6) hello = '凌晨好';
+  else if (hour < 9) hello = '早上好';
+  else if (hour < 12) hello = '上午好';
+  else if (hour < 14) hello = '中午好';
+  else if (hour < 17) hello = '下午好';
+  else if (hour < 19) hello = '傍晚好';
+  else if (hour < 22) hello = '晚上好';
+  else hello = '夜深了';
+
+  // Simple toast-like notification
+  const toast = document.createElement('div');
+  toast.style.cssText =
+    'position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;' +
+    'background:#00000080;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);' +
+    'color:#efefef;padding:8px 20px;border-radius:25px;font-size:14px;' +
+    'animation:fade 0.5s;pointer-events:none;white-space:nowrap;';
+  toast.innerHTML = `<strong>${hello}</strong> 欢迎来到我的主页`;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+
+  // ===== Memorial day detection =====
+  const anniversaries = {
+    '4.4': '清明节',
+    '5.12': '汶川大地震纪念日',
+    '7.7': '中国人民抗日战争纪念日',
+    '9.18': '九·一八事变纪念日',
+    '12.13': '南京大屠杀死难者国家公祭日',
+  };
+
+  const now = new Date();
+  const key = `${now.getMonth() + 1}.${now.getDate()}`;
+  if (anniversaries[key]) {
+    const gray = document.createElement('style');
+    gray.innerHTML = 'html{filter:grayscale(100%)}';
+    document.head.appendChild(gray);
+
+    const memorialToast = document.createElement('div');
+    memorialToast.style.cssText = toast.style.cssText;
+    memorialToast.style.top = '60px';
+    memorialToast.innerHTML = `🕯️ 今天是${anniversaries[key]}`;
+    document.body.appendChild(memorialToast);
+    setTimeout(() => memorialToast.remove(), 14000);
+  }
+
+  // ===== Console easter egg =====
+  const styleTitle1 = 'font-size: 20px;font-weight: 600;color: rgb(244,167,89);';
+  const styleTitle2 = 'font-size:12px;color: rgb(244,167,89);';
+  const styleContent = 'color: rgb(30,152,255);';
+  const ascii = `
+   _____ __  __  _______     ____     __
+  |_   _|  \\/  |/ ____\\ \\   / /\\ \\   / /
+    | | | \\  / | (___  \\ \\_/ /  \\ \\_/ /
+    | | | |\\/| |\\___ \\  \\   /    \\   /
+   _| |_| |  | |____) |  | |      | |
+  |_____|_|  |_|_____/   |_|      |_|`;
+  console.info(`%cmcc.im%c${ascii}%c\\n\\nAstro 移植版\\nGitHub: https://github.com/Smart-Chou/homepage`, styleTitle1, styleTitle2, styleContent);
+
+  // ===== Right-click message =====
+  document.oncontextmenu = () => {
+    const rcToast = document.createElement('div');
+    rcToast.style.cssText = toast.style.cssText;
+    rcToast.textContent = '为了浏览体验，本站禁用右键';
+    document.body.appendChild(rcToast);
+    setTimeout(() => rcToast.remove(), 2000);
+    return false;
+  };
+</script>

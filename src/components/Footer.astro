@@ -22,6 +22,9 @@ const siteIcp = '';
         <a href="https://beian.miit.gov.cn" target="_blank">{siteIcp}</a>
       </span>
     )}
+    <span class="hidden">
+      &amp;&nbsp;<span id="site-age"></span>
+    </span>
   </div>
 </footer>
 
@@ -58,3 +61,32 @@ const siteIcp = '';
     .hidden { display: none; }
   }
 </style>
+
+<script>
+  // Site age calculator
+  const siteStart = new Date(2020, 9, 24); // 2020-10-24
+  const ageEl = document.getElementById('site-age');
+
+  function updateAge() {
+    const now = new Date();
+    let years = now.getFullYear() - siteStart.getFullYear();
+    let months = now.getMonth() - siteStart.getMonth();
+    let days = now.getDate() - siteStart.getDate();
+
+    if (days < 0) {
+      months--;
+      const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      days += lastMonth.getDate();
+    }
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    if (ageEl) {
+      ageEl.textContent = `本站已经苟活了 ${years} 年 ${months} 月 ${days} 天`;
+    }
+  }
+
+  updateAge();
+</script>

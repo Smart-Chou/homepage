@@ -4,3 +4,4 @@ node_modules/
 .superpowers/
 home/
 homepage/
+.DS_Store
