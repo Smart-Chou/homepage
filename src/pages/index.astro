@@ -5,16 +5,11 @@ import "../style/style.scss";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Loading from "../components/Loading.astro";
 import Background from "../components/Background.astro";
-import Clock from "../components/Clock.astro";
 import Description from "../components/Description.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import SiteLinks from "../components/SiteLinks.astro";
 import Hitokoto from "../components/Hitokoto.astro";
-import Settings from "../components/Settings.astro";
 import Footer from "../components/Footer.astro";
-import FeatureBox from "../components/FeatureBox.astro";
-import MobileFunc from "../components/MobileFunc.astro";
-import AdvancedSettings from "../components/AdvancedSettings.astro";
 ---
 
 <BaseLayout>
@@ -29,14 +24,7 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
     window.__STATE__ = {
       imgLoadStatus: false,
       innerWidth: window.innerWidth,
-      coverType: loadPersistent().coverType || "0",
-      siteStartShow: loadPersistent().siteStartShow || false,
       backgroundShow: false,
-      boxOpenState: false,
-      mobileOpenState: false,
-      mobileFuncState: false,
-      setOpenState: false,
-      footerBlur: loadPersistent().footerBlur !== undefined ? loadPersistent().footerBlur : true,
     };
     window.saveState = function (key, value) {
       window.__STATE__[key] = value;
@@ -87,43 +75,18 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
       <section class="all" id="main-all">
         <!-- 主面板 -->
         <div class="main-panel" id="main-panel">
-          <Clock />
           <Description />
           <SocialLinks />
           <Hitokoto />
           <SiteLinks />
-          <button class="more-btn" id="more-btn" title="更多">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
-            </svg>
-            <span>更多</span>
-          </button>
-          <div class="main-settings" id="main-settings">
-            <Settings />
-          </div>
-        </div>
-
-        <!-- 功能盒子 -->
-        <div class="box-panel" id="box-panel" style="display:none;">
-          <button class="box-back-btn" id="box-back-btn" title="返回">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
-          </button>
-          <FeatureBox />
         </div>
       </section>
-
-      <!-- 更多设置（覆盖层） -->
-      <AdvancedSettings />
     </div>
 
     <!-- 页脚 -->
     <Footer />
   </main>
 
-  <!-- 移动端功能区 -->
-  <MobileFunc />
 </BaseLayout>
 
 <style>
@@ -153,115 +116,25 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
 
   .all {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     padding: 0 0.75rem;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
 
-  /* 左侧面板 */
-  .left-panel {
-    flex: 1;
+  /* 单栏主面板 */
+  .main-panel {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 18px;
-    max-width: 500px;
-    padding: 20px;
-  }
-
-  /* 右侧面板 */
-  .right-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-width: 380px;
-    padding: 20px;
-    animation: fade 0.3s;
-  }
-
-  .right-header {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .more-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+    gap: 22px;
+    max-width: 560px;
     width: 100%;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    color: rgba(255, 255, 255, 0.7);
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-family: "HarmonyOS_Regular", sans-serif;
-    transition: background 0.3s, color 0.3s;
+    padding: 40px 20px;
   }
 
-  .more-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-  }
-
-  /* 盒子面板 */
-  .box-panel {
-    flex: 1;
-    max-width: 380px;
-    padding: 20px;
-    position: relative;
-    animation: fade 0.3s;
-  }
-
-  .box-back-btn {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    background: none;
-    border: none;
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
-    transition: color 0.3s;
-    z-index: 2;
-  }
-
-  .box-back-btn:hover {
-    color: #fff;
-  }
-
-  /* 移动端菜单按钮 */
-  .mobile-menu-btn {
-    position: absolute;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    top: 84%;
-    left: calc(50% - 28px);
-    width: 56px;
-    height: 34px;
-    background: rgb(0 0 0 / 20%);
-    backdrop-filter: blur(10px);
-    border: none;
-    border-radius: 6px;
-    color: rgba(255, 255, 255, 0.8);
-    cursor: pointer;
-    transition: transform 0.3s;
-    animation: fade 0.5s;
-    z-index: 4;
-  }
-
-  .mobile-menu-btn:active {
-    transform: scale(0.95);
-  }
 
   @media (max-width: 1200px) {
     .container {
@@ -270,27 +143,12 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
   }
 
   @media (max-width: 720px) {
-    .mobile-menu-btn {
-      display: flex;
-    }
-
     .all {
-      flex-direction: column;
       padding: 0 1rem;
     }
-
-    .left-panel {
-      flex: none;
-      padding: 10px;
-      gap: 10px;
-    }
-
-    .right-panel {
-      display: none !important;
-    }
-
-    .left-panel .social-links {
-      display: none;
+    .main-panel {
+      padding: 20px 10px;
+      gap: 12px;
     }
   }
 
@@ -300,7 +158,7 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
       overflow-x: hidden;
     }
     .container {
-      height: 721px;
+      min-height: 721px;
     }
   }
 
@@ -319,20 +177,8 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
 
   const main = document.getElementById("main");
   const mainContainer = document.getElementById("main-container");
-  const rightPanel = document.getElementById("right-panel");
-  const boxPanel = document.getElementById("box-panel");
-  const moreBtn = document.getElementById("more-btn");
-  const boxBackBtn = document.getElementById("box-back-btn");
-  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-  const mobileMenuIcon = document.getElementById("mobile-menu-icon");
-  const advanced = document.getElementById("advanced-settings");
 
   const S = window.__STATE__;
-
-  // 页面宽度
-  function getWidth() {
-    window.setInnerWidth(window.innerWidth);
-  }
 
   // 页面初始化（所有功能入口）
   function initPage() {
@@ -376,38 +222,4 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
     initPage();
   }
 
-  // more 按钮 → 打开功能盒子
-  moreBtn?.addEventListener("click", () => {
-    S.boxOpenState = true;
-    if (rightPanel) rightPanel.style.display = "none";
-    if (boxPanel) boxPanel.style.display = "block";
-  });
-
-  // 返回按钮
-  boxBackBtn?.addEventListener("click", () => {
-    S.boxOpenState = false;
-    if (rightPanel) rightPanel.style.display = "";
-    if (boxPanel) boxPanel.style.display = "none";
-  });
-
-  // 移动端菜单
-  mobileMenuBtn?.addEventListener("click", () => {
-    S.mobileFuncState = !S.mobileFuncState;
-    window.dispatchEvent(new CustomEvent("toggleMobileFunc"));
-    if (S.mobileFuncState) {
-      if (mobileMenuIcon) mobileMenuIcon.innerHTML = `<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>`;
-    } else {
-      if (mobileMenuIcon) mobileMenuIcon.innerHTML = `<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>`;
-    }
-  });
-
-  // 设置面板打开更多设置
-  window.addEventListener("openAdvancedSettings", () => {
-    S.setOpenState = true;
-    if (advanced) advanced.classList.add("open");
-  });
-
-  // 监听窗口宽度
-  window.addEventListener("resize", getWidth);
-  getWidth();
 </script>

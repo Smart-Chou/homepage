@@ -11,6 +11,10 @@ GitHub：https://github.com/imsyy/home
 
 /* 全局样式 */
 
+html {
+  font-size: 125%; /* 1rem = 20px, 全局放大 */
+}
+
 html,
 body {
   width: 100%;

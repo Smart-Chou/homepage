@@ -2,135 +2,67 @@
 // SiteLinks 组件 - 站点导航
 import siteLinks from "../assets/siteLinks.json";
 
-// 内联 SVG 图标映射
 const iconMap: Record<string, string> = {
-  Blog: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
-  Brain: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.4-1.2 4.5-3 5.7"/><path d="M12 2a7 7 0 0 0-7 7c0 2.4 1.2 4.5 3 5.7"/><path d="M9 15v4a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-4"/><circle cx="12" cy="9" r="3"/></svg>`,
-  Cloud: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg>`,
-  ImagesRegular: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
-  Staylinked: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
-  Image: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
-  LaptopCode: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="20" x2="22" y2="20"/><polyline points="8 8 5 12 8 16"/><polyline points="16 8 19 12 16 16"/></svg>`,
+  Blog: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
+  Brain: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.4-1.2 4.5-3 5.7"/><path d="M12 2a7 7 0 0 0-7 7c0 2.4 1.2 4.5 3 5.7"/><path d="M9 15v4a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-4"/><circle cx="12" cy="9" r="3"/></svg>`,
+  Cloud: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg>`,
+  ImagesRegular: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
+  Staylinked: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
+  Image: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
+  LaptopCode: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="20" x2="22" y2="20"/><polyline points="8 8 5 12 8 16"/><polyline points="16 8 19 12 16 16"/></svg>`,
 };
 
 function getIcon(name: string): string {
-  return iconMap[name] || `<span style="font-size:16px">🔗</span>`;
+  return iconMap[name] || `<span style="font-size:14px">🔗</span>`;
 }
 ---
 
-<div class="site-links" id="site-links">
-  <div class="links-header" id="links-toggle">
-    <svg class="links-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="6 9 12 15 18 9"/>
-    </svg>
-    <span class="links-title">站点导航</span>
-  </div>
-  <div class="links-list" id="links-list">
-    {siteLinks.map((link) => (
-      <a href={link.link} target="_blank" rel="noopener noreferrer" class="link-item" title={link.name}>
-        <span class="link-icon" set:html={getIcon(link.icon)} />
-        <span class="link-name">{link.name}</span>
-      </a>
-    ))}
-  </div>
+<div class="site-links">
+  {siteLinks.map((link) => (
+    <a href={link.link} target="_blank" rel="noopener noreferrer" class="link-item" title={link.name}>
+      <span class="link-icon" set:html={getIcon(link.icon)} />
+      <span class="link-name">{link.name}</span>
+    </a>
+  ))}
 </div>
 
 <style>
   .site-links {
     width: 100%;
-  }
-
-  .links-header {
     display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 14px;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background 0.3s;
-  }
-
-  .links-header:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .links-arrow {
-    color: rgba(255, 255, 255, 0.7);
-    transition: transform 0.3s;
-  }
-
-  .links-arrow.open {
-    transform: rotate(180deg);
-  }
-
-  .links-title {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.8);
-    font-family: "HarmonyOS_Regular", sans-serif;
-  }
-
-  .links-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
-    padding: 8px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, padding 0.3s ease;
-  }
-
-  .links-list.expanded {
-    max-height: 300px;
-    padding: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
   }
 
   .link-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    border-radius: 6px;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
     background: rgba(255, 255, 255, 0.08);
     transition: background 0.3s, transform 0.3s;
     text-decoration: none;
+    white-space: nowrap;
   }
 
   .link-item:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: scale(1.02);
+    background: rgba(255, 255, 255, 0.18);
+    transform: scale(1.05);
     text-decoration: none;
   }
 
   .link-icon {
     display: flex;
     align-items: center;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.75);
     flex-shrink: 0;
   }
 
   .link-name {
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.85);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     font-family: "HarmonyOS_Regular", sans-serif;
   }
-
-  @media (max-width: 720px) {
-    .links-list {
-      grid-template-columns: 1fr;
-    }
-  }
 </style>
-
-<script>
-  const toggle = document.getElementById("links-toggle");
-  const list = document.getElementById("links-list");
-  const arrow = toggle?.querySelector(".links-arrow");
-
-  toggle?.addEventListener("click", () => {
-    const isOpen = list?.classList.toggle("expanded");
-    arrow?.classList.toggle("open", isOpen);
-  });
-</script>

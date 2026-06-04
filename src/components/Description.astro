@@ -20,8 +20,8 @@
   }
 
   .desc-logo {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     cursor: pointer;
     transition: transform 0.3s;
@@ -67,7 +67,7 @@
   const hello = import.meta.env.PUBLIC_DESC_HELLO || "Hello World !";
   const text = import.meta.env.PUBLIC_DESC_TEXT || "一个建立于 21 世纪的小站，存活于互联网的边缘";
   const helloOther = import.meta.env.PUBLIC_DESC_HELLO_OTHER || "Oops !";
-  const textOther = import.meta.env.PUBLIC_DESC_TEXT_OTHER || "哎呀，这都被你发现了（ 再点击一次可关闭 ）";
+  const textOther = import.meta.env.PUBLIC_DESC_TEXT_OTHER || "哎呀，这都被你发现了（ 再点击一次可返回 ）";
 
   const helloEl = document.getElementById("desc-hello");
   const textEl = document.getElementById("desc-text");

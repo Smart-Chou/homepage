@@ -5,14 +5,7 @@ interface Window {
   __STATE__: {
     imgLoadStatus: boolean;
     innerWidth: number;
-    coverType: string;
-    siteStartShow: boolean;
     backgroundShow: boolean;
-    boxOpenState: boolean;
-    mobileOpenState: boolean;
-    mobileFuncState: boolean;
-    setOpenState: boolean;
-    footerBlur: boolean;
   };
   saveState(key: string, value: unknown): void;
   notify(eventName: string, detail?: unknown): void;
