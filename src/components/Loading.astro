@@ -1,0 +1,134 @@
+---
+// Loading 组件 - 加载动画
+---
+
+<div id="loading" class="loading-container">
+  <div class="loading-spinner">
+    <div class="spinner-ring"></div>
+    <div class="spinner-ring"></div>
+    <div class="spinner-ring"></div>
+  </div>
+  <div class="loading-text">加载中...</div>
+  <div class="loading-progress">
+    <div id="loading-bar" class="loading-bar"></div>
+  </div>
+</div>
+
+<style>
+  .loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .loading-container.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .loading-spinner {
+    position: relative;
+    width: 60px;
+    height: 60px;
+  }
+
+  .spinner-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px solid transparent;
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+  }
+
+  .spinner-ring:nth-child(1) {
+    animation-delay: 0s;
+    border-top-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .spinner-ring:nth-child(2) {
+    animation-delay: 0.15s;
+    border-top-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .spinner-ring:nth-child(3) {
+    animation-delay: 0.3s;
+    border-top-color: #fff;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .loading-text {
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  .loading-progress {
+    margin-top: 16px;
+    width: 120px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .loading-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+</style>
+
+<script>
+  import { helloInit, checkDays } from "../scripts/time";
+
+  const loadingEl = document.getElementById("loading");
+  const barEl = document.getElementById("loading-bar");
+
+  // 模拟进度
+  let progress = 0;
+  const progressTimer = setInterval(() => {
+    progress += Math.random() * 15;
+    if (progress > 90) {
+      progress = 90;
+      clearInterval(progressTimer);
+    }
+    barEl.style.width = Math.min(progress, 100) + "%";
+  }, 200);
+
+  // 监听壁纸加载完成
+  window.addEventListener("bgLoaded", () => {
+    clearInterval(progressTimer);
+    barEl.style.width = "100%";
+
+    setTimeout(() => {
+      loadingEl?.classList.add("hide");
+      setTimeout(() => loadingEl?.remove(), 500);
+
+      // 触发加载完成
+      window.__STATE__.imgLoadStatus = true;
+      window.notify("loadComplete");
+
+      // 欢迎提示 & 默哀模式
+      helloInit();
+      checkDays();
+    }, 400);
+  });
+</script>

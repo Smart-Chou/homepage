@@ -1,0 +1,55 @@
+---
+// SocialLinks 组件 - 社交链接
+import socialLinks from "../assets/socialLinks.json";
+---
+
+<div class="social-links">
+  {socialLinks.map((link) => (
+    <a
+      href={link.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="social-item"
+      title={link.tip}
+    >
+      <img
+        src={link.icon}
+        alt={link.name}
+        class="social-icon"
+        loading="lazy"
+      />
+    </a>
+  ))}
+</div>
+
+<style>
+  .social-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .social-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s, background 0.3s;
+  }
+
+  .social-item:hover {
+    transform: scale(1.15) rotate(8deg);
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .social-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+  }
+</style>

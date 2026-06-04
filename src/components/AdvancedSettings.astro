@@ -1,0 +1,208 @@
+---
+// AdvancedSettings 组件 - 更多设置（替代原 MoreSet）
+---
+
+<div class="advanced-settings" id="advanced-settings">
+  <div class="advanced-overlay" id="advanced-overlay"></div>
+  <div class="advanced-panel" id="advanced-panel">
+    <button class="advanced-close" id="advanced-close" title="关闭">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="advanced-section">
+      <div class="advanced-title">关于本站</div>
+      <div class="advanced-info">
+        <p>版本：4.1.4</p>
+        <p>作者：marxchou</p>
+        <p>框架：Astro</p>
+      </div>
+    </div>
+
+    <div class="advanced-section">
+      <div class="advanced-title">显示设置</div>
+      <div class="advanced-item">
+        <span class="advanced-label">底栏模糊效果</span>
+        <label class="advanced-switch">
+          <input type="checkbox" id="footer-blur-toggle" checked />
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .advanced-settings {
+    display: none;
+  }
+
+  .advanced-settings.open {
+    display: block;
+  }
+
+  .advanced-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+    animation: fade 0.5s;
+  }
+
+  .advanced-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 12px;
+    padding: 24px;
+    z-index: 101;
+    animation: fade 0.5s;
+  }
+
+  .advanced-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.3s, background 0.3s;
+  }
+
+  .advanced-close:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .advanced-section {
+    margin-bottom: 20px;
+  }
+
+  .advanced-title {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+    font-family: "HarmonyOS_Regular", sans-serif;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .advanced-info p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.8;
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  .advanced-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+  }
+
+  .advanced-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  .advanced-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+  }
+
+  .advanced-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 22px;
+    transition: 0.3s;
+  }
+
+  .switch-slider:before {
+    content: "";
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+
+  input:checked + .switch-slider {
+    background: #4facfe;
+  }
+
+  input:checked + .switch-slider:before {
+    transform: translateX(18px);
+  }
+</style>
+
+<script>
+  const settings = document.getElementById("advanced-settings");
+  const overlay = document.getElementById("advanced-overlay");
+  const closeBtn = document.getElementById("advanced-close");
+  const blurToggle = document.getElementById("footer-blur-toggle");
+
+  // 初始化
+  blurToggle.checked = window.__STATE__?.footerBlur !== false;
+
+  function close() {
+    settings?.classList.remove("open");
+    window.__STATE__.setOpenState = false;
+  }
+
+  overlay?.addEventListener("click", close);
+  closeBtn?.addEventListener("click", close);
+
+  // 底栏模糊开关
+  blurToggle?.addEventListener("change", () => {
+    window.saveState("footerBlur", blurToggle.checked);
+    const footerInner = document.querySelector(".footer-inner");
+    if (footerInner) {
+      if (blurToggle.checked) {
+        footerInner.style.backdropFilter = "blur(10px)";
+        footerInner.style.background = "rgba(0, 0, 0, 0.25)";
+      } else {
+        footerInner.style.backdropFilter = "none";
+        footerInner.style.background = "rgba(0, 0, 0, 0.4)";
+      }
+    }
+  });
+
+  // 外部打开
+  window.addEventListener("openAdvancedSettings", () => {
+    settings?.classList.add("open");
+    window.__STATE__.setOpenState = true;
+  });
+</script>

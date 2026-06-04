@@ -1,0 +1,79 @@
+---
+// Clock 组件 - 数字时钟
+---
+
+<div id="clock" class="clock">
+  <div class="clock-date">
+    <span id="clock-year"></span> 年
+    <span id="clock-month"></span> 月
+    <span id="clock-day"></span> 日
+  </div>
+  <div class="clock-time">
+    <span id="clock-hour">00</span>:<span id="clock-minute">00</span>:<span id="clock-second">00</span>
+  </div>
+  <div class="clock-weekday" id="clock-weekday"></div>
+</div>
+
+<style>
+  .clock {
+    text-align: center;
+    font-family: "UnidreamLED", monospace;
+  }
+
+  .clock-date {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 4px;
+  }
+
+  .clock-time {
+    font-size: 3.2rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    line-height: 1.1;
+    letter-spacing: 2px;
+  }
+
+  .clock-weekday {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 4px;
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  @media (max-width: 720px) {
+    .clock-time {
+      font-size: 2rem;
+    }
+    .clock-date {
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+<script>
+  import { getCurrentTime } from "../scripts/time";
+
+  function updateClock() {
+    const t = getCurrentTime();
+    const yearEl = document.getElementById("clock-year");
+    const monthEl = document.getElementById("clock-month");
+    const dayEl = document.getElementById("clock-day");
+    const hourEl = document.getElementById("clock-hour");
+    const minuteEl = document.getElementById("clock-minute");
+    const secondEl = document.getElementById("clock-second");
+    const weekdayEl = document.getElementById("clock-weekday");
+
+    if (yearEl) yearEl.textContent = t.year;
+    if (monthEl) monthEl.textContent = t.month;
+    if (dayEl) dayEl.textContent = t.day;
+    if (hourEl) hourEl.textContent = t.hour;
+    if (minuteEl) minuteEl.textContent = t.minute;
+    if (secondEl) secondEl.textContent = t.second;
+    if (weekdayEl) weekdayEl.textContent = t.weekday;
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>

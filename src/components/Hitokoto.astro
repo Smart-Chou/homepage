@@ -1,0 +1,80 @@
+---
+// Hitokoto 组件 - 一言
+---
+
+<div class="hitokoto" id="hitokoto">
+  <div class="hitokoto-content" id="hitokoto-text">加载中...</div>
+  <div class="hitokoto-from" id="hitokoto-from"></div>
+  <button class="hitokoto-refresh" id="hitokoto-btn" title="换一句">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 4 23 10 17 10"/>
+      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .hitokoto {
+    position: relative;
+    text-align: center;
+    padding: 8px 36px 8px 8px;
+  }
+
+  .hitokoto-content {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    font-family: "HarmonyOS_Regular", sans-serif;
+    animation: fade 0.5s ease;
+  }
+
+  .hitokoto-from {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 4px;
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  .hitokoto-refresh {
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+  }
+
+  .hitokoto-refresh:hover {
+    color: rgba(255, 255, 255, 0.8);
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  import { getHitokoto } from "../scripts/api";
+
+  const textEl = document.getElementById("hitokoto-text");
+  const fromEl = document.getElementById("hitokoto-from");
+  const btn = document.getElementById("hitokoto-btn");
+
+  async function fetchHitokoto() {
+    try {
+      const data = await getHitokoto();
+      if (textEl) textEl.textContent = data.hitokoto;
+      if (fromEl) fromEl.textContent = data.from ? `—— ${data.from}` : "";
+    } catch {
+      if (textEl) textEl.textContent = "没有什么会被忘记，也没有什么会失去。";
+      if (fromEl) fromEl.textContent = "—— 网络";
+    }
+  }
+
+  fetchHitokoto();
+
+  btn?.addEventListener("click", fetchHitokoto);
+</script>

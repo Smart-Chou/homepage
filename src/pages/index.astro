@@ -1,0 +1,370 @@
+---
+// 主页面
+import "../style/style.scss";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Loading from "../components/Loading.astro";
+import Background from "../components/Background.astro";
+import Clock from "../components/Clock.astro";
+import Description from "../components/Description.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+import SiteLinks from "../components/SiteLinks.astro";
+import Hitokoto from "../components/Hitokoto.astro";
+import TimeCapsule from "../components/TimeCapsule.astro";
+import Settings from "../components/Settings.astro";
+import Footer from "../components/Footer.astro";
+import FeatureBox from "../components/FeatureBox.astro";
+import MobileFunc from "../components/MobileFunc.astro";
+import AdvancedSettings from "../components/AdvancedSettings.astro";
+---
+
+<BaseLayout>
+  <!-- 加载动画 -->
+  <Loading />
+
+  <!-- 壁纸背景 -->
+  <Background />
+
+  <!-- 主界面 -->
+  <main id="main">
+    <div class="container" id="main-container">
+      <section class="all" id="main-all">
+        <!-- 左侧面板 -->
+        <div class="left-panel">
+          <Clock />
+          <Description />
+          <SocialLinks />
+        </div>
+
+        <!-- 右侧面板 -->
+        <div class="right-panel" id="right-panel">
+          <div class="right-header">
+            <Settings />
+          </div>
+          <SiteLinks />
+          <Hitokoto />
+          <button class="more-btn" id="more-btn" title="更多">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+            </svg>
+            <span>更多</span>
+          </button>
+        </div>
+
+        <!-- 功能盒子 -->
+        <div class="box-panel" id="box-panel" style="display:none;">
+          <button class="box-back-btn" id="box-back-btn" title="返回">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+          <FeatureBox />
+        </div>
+      </section>
+
+      <!-- 更多设置（覆盖层） -->
+      <AdvancedSettings />
+    </div>
+
+    <!-- 移动端菜单按钮 -->
+    <button class="mobile-menu-btn" id="mobile-menu-btn" title="菜单">
+      <svg id="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <!-- 页脚 -->
+    <Footer />
+  </main>
+
+  <!-- 移动端功能区 -->
+  <MobileFunc />
+</BaseLayout>
+
+<style>
+  #main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(1.2);
+    transition: transform 0.3s;
+    animation: fade-blur-main-in 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation-delay: 0.5s;
+    display: none;
+  }
+
+  #main.visible {
+    display: block;
+  }
+
+  .container {
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 0 0.5vw;
+  }
+
+  .all {
+    width: 100%;
+    height: 100%;
+    padding: 0 0.75rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 左侧面板 */
+  .left-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    max-width: 500px;
+    padding: 20px;
+  }
+
+  /* 右侧面板 */
+  .right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 380px;
+    padding: 20px;
+    animation: fade 0.3s;
+  }
+
+  .right-header {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .more-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: "HarmonyOS_Regular", sans-serif;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .more-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+  }
+
+  /* 盒子面板 */
+  .box-panel {
+    flex: 1;
+    max-width: 380px;
+    padding: 20px;
+    position: relative;
+    animation: fade 0.3s;
+  }
+
+  .box-back-btn {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.3s;
+    z-index: 2;
+  }
+
+  .box-back-btn:hover {
+    color: #fff;
+  }
+
+  /* 移动端菜单按钮 */
+  .mobile-menu-btn {
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top: 84%;
+    left: calc(50% - 28px);
+    width: 56px;
+    height: 34px;
+    background: rgb(0 0 0 / 20%);
+    backdrop-filter: blur(10px);
+    border: none;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: transform 0.3s;
+    animation: fade 0.5s;
+    z-index: 4;
+  }
+
+  .mobile-menu-btn:active {
+    transform: scale(0.95);
+  }
+
+  @media (max-width: 1200px) {
+    .container {
+      padding: 0 2vw;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .mobile-menu-btn {
+      display: flex;
+    }
+
+    .all {
+      flex-direction: column;
+      padding: 0 1rem;
+    }
+
+    .left-panel {
+      flex: none;
+      padding: 10px;
+      gap: 10px;
+    }
+
+    .right-panel {
+      display: none !important;
+    }
+
+    .left-panel .social-links {
+      display: none;
+    }
+  }
+
+  @media (max-height: 720px) {
+    #main {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .container {
+      height: 721px;
+    }
+  }
+
+  @media (max-width: 390px) {
+    #main {
+      overflow-x: auto;
+    }
+    .container {
+      width: 391px;
+    }
+  }
+</style>
+
+<script>
+  import "../scripts/state.js";
+  import "../scripts/message.js";
+  import cursorInit from "../scripts/cursor.js";
+
+  const main = document.getElementById("main");
+  const mainContainer = document.getElementById("main-container");
+  const mainAll = document.getElementById("main-all");
+  const rightPanel = document.getElementById("right-panel");
+  const boxPanel = document.getElementById("box-panel");
+  const moreBtn = document.getElementById("more-btn");
+  const boxBackBtn = document.getElementById("box-back-btn");
+  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenuIcon = document.getElementById("mobile-menu-icon");
+  const footer = document.getElementById("footer");
+  const advanced = document.getElementById("advanced-settings");
+
+  const S = window.__STATE__;
+
+  // 页面宽度
+  function getWidth() {
+    window.setInnerWidth(window.innerWidth);
+  }
+
+  // Loading 完成后的处理
+  window.addEventListener("loadComplete", () => {
+    main?.classList.add("visible");
+
+    // 自定义鼠标
+    cursorInit();
+
+    // 右键屏蔽
+    document.oncontextmenu = () => {
+      window.showToast("为了浏览体验，本站禁用右键");
+      return false;
+    };
+
+    // 中键点击切换壁纸展示
+    window.addEventListener("mousedown", (event) => {
+      if (event.button === 1) {
+        S.backgroundShow = !S.backgroundShow;
+        if (mainContainer) {
+          mainContainer.style.display = S.backgroundShow ? "none" : "block";
+        }
+        window.showToast(`已${S.backgroundShow ? "开启" : "退出"}壁纸展示状态`);
+      }
+    });
+
+    // 控制台彩蛋
+    const styleTitle1 = "font-size: 20px;font-weight: 600;color: rgb(244,167,89);";
+    const styleTitle2 = "font-size:12px;color: rgb(244,167,89);";
+    const styleContent = "color: rgb(30,152,255);";
+    const title1 = "無名の主页";
+    const title2 = `
+ _____ __  __  _______     ____     __
+|_   _|  \\/  |/ ____\\ \\   / /\\ \\   / /
+  | | | \\  / | (___  \\ \\_/ /  \\ \\_/ /
+  | | | |\\/| |\\___ \\  \\   /    \\   /
+ _| |_| |  | |____) |  | |      | |
+|_____|_|  |_|_____/   |_|      |_|`;
+    console.info(`%c${title1} %c${title2} %c\n\n版本: 4.1.4`, styleTitle1, styleTitle2, styleContent);
+  });
+
+  // more 按钮 → 打开功能盒子
+  moreBtn?.addEventListener("click", () => {
+    S.boxOpenState = true;
+    if (rightPanel) rightPanel.style.display = "none";
+    if (boxPanel) boxPanel.style.display = "block";
+  });
+
+  // 返回按钮
+  boxBackBtn?.addEventListener("click", () => {
+    S.boxOpenState = false;
+    if (rightPanel) rightPanel.style.display = "";
+    if (boxPanel) boxPanel.style.display = "none";
+  });
+
+  // 移动端菜单
+  mobileMenuBtn?.addEventListener("click", () => {
+    S.mobileFuncState = !S.mobileFuncState;
+    window.dispatchEvent(new CustomEvent("toggleMobileFunc"));
+    // 切换图标
+    if (S.mobileFuncState) {
+      mobileMenuIcon.innerHTML = `<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>`;
+    } else {
+      mobileMenuIcon.innerHTML = `<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>`;
+    }
+  });
+
+  // 设置面板打开更多设置
+  window.addEventListener("openAdvancedSettings", () => {
+    S.setOpenState = true;
+    if (advanced) advanced.classList.add("open");
+  });
+
+  // 监听窗口宽度
+  window.addEventListener("resize", getWidth);
+  getWidth();
+</script>

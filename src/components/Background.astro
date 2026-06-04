@@ -1,0 +1,89 @@
+---
+// Background 组件 - 壁纸背景
+---
+
+<div id="bg" class="bg-container">
+  <img
+    id="bg-img"
+    class="bg-image"
+    src=""
+    alt="background"
+    loading="eager"
+  />
+  <div id="bg-mask" class="bg-mask"></div>
+</div>
+
+<style>
+  .bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: fade-blur-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .bg-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+</style>
+
+<script>
+  const TOTAL_IMAGES = 10;
+  const COVER_TYPES = {
+    "0": () => Math.floor(Math.random() * TOTAL_IMAGES) + 1,  // 随机
+    "1": () => 1, "2": () => 2, "3": () => 3,
+    "4": () => 4, "5": () => 5, "6": () => 6,
+    "7": () => 7, "8": () => 8, "9": () => 9,
+    "10": () => 10,
+  };
+
+  function getBgUrl(type) {
+    const getNum = COVER_TYPES[type] || COVER_TYPES["0"];
+    const num = getNum();
+    return `/images/background${num}.jpg`;
+  }
+
+  function isMobile() {
+    return window.innerWidth <= 720;
+  }
+
+  const bgImg = document.getElementById("bg-img");
+  const type = window.__STATE__?.coverType || "0";
+  const url = getBgUrl(type);
+
+  // 预加载图片
+  const img = new Image();
+  img.onload = () => {
+    bgImg.src = url;
+    // 派发加载完成事件
+    window.dispatchEvent(new CustomEvent("bgLoaded"));
+  };
+  img.onerror = () => {
+    // 加载失败用默认壁纸
+    bgImg.src = "/images/background1.jpg";
+    window.dispatchEvent(new CustomEvent("bgLoaded"));
+  };
+  img.src = url;
+
+  // 响应式壁纸切换
+  if (isMobile()) {
+    document.getElementById("bg-mask").style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+  }
+</script>

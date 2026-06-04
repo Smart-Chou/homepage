@@ -1,0 +1,98 @@
+---
+// Footer 组件 - 页脚
+const author = import.meta.env.PUBLIC_SITE_AUTHOR || "marxchou";
+const icp = import.meta.env.PUBLIC_SITE_ICP || "";
+const siteStart = import.meta.env.PUBLIC_SITE_START || "";
+---
+
+<div class="footer" id="footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <span class="footer-copyright">© 2022 - {new Date().getFullYear()} {author}</span>
+      {icp && (
+        <a
+          href="https://beian.miit.gov.cn/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-icp"
+        >
+          {icp}
+        </a>
+      )}
+    </div>
+    <div class="footer-right" id="footer-uptime" data-start={siteStart}></div>
+  </div>
+</div>
+
+<style>
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 8px 16px;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    transition: backdrop-filter 0.3s;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-copyright {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  .footer-icp {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  .footer-icp:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .footer-right {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  @media (max-width: 720px) {
+    .footer-inner {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  import { siteDateStatistics } from "../scripts/time";
+
+  const uptimeEl = document.getElementById("footer-uptime");
+  const startDate = uptimeEl?.dataset.start;
+
+  if (startDate && uptimeEl) {
+    const date = new Date(startDate);
+    if (!isNaN(date.getTime())) {
+      uptimeEl.textContent = siteDateStatistics(date);
+    }
+  }
+</script>

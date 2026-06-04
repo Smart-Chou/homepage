@@ -1,0 +1,179 @@
+---
+// FeatureBox 组件 - 功能盒子（替代原 Box 组件，用 CSS scroll-snap 替代 Swiper）
+---
+
+<div class="feature-box" id="feature-box">
+  <div class="box-slides" id="box-slides">
+    <div class="box-slide" id="box-time-capsule">
+      <div class="box-title">时光胶囊</div>
+      <div id="box-capsule-content"></div>
+    </div>
+    <div class="box-slide" id="box-hitokoto">
+      <div class="box-title">一言</div>
+      <div class="box-hitokoto-content" id="box-hito-text">加载中...</div>
+      <div class="box-hitokoto-from" id="box-hito-from"></div>
+      <button class="box-hito-btn" id="box-hito-btn" title="换一句">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"/>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="box-dots" id="box-dots">
+    <span class="dot active" data-index="0"></span>
+    <span class="dot" data-index="1"></span>
+  </div>
+</div>
+
+<style>
+  .feature-box {
+    width: 100%;
+    animation: fade 0.3s ease;
+  }
+
+  .box-slides {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+
+  .box-slides::-webkit-scrollbar {
+    display: none;
+  }
+
+  .box-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    min-height: 160px;
+  }
+
+  .box-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  .box-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .dot.active {
+    background: #fff;
+    transform: scale(1.3);
+  }
+
+  .box-hitokoto-content {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  .box-hitokoto-from {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 6px;
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  .box-hito-btn {
+    margin-top: 8px;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .box-hito-btn:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.8);
+  }
+</style>
+
+<script>
+  import { getTimeCapsule } from "../scripts/time";
+  import { getHitokoto } from "../scripts/api";
+
+  const slides = document.getElementById("box-slides");
+  const dots = document.querySelectorAll("#box-dots .dot");
+
+  // CSS scroll-snap 滑动指示器
+  slides?.addEventListener("scroll", () => {
+    const index = Math.round(slides.scrollLeft / slides.clientWidth);
+    dots.forEach((d, i) => d.classList.toggle("active", i === index));
+  });
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      const index = parseInt(dot.dataset.index);
+      slides.scrollTo({ left: slides.clientWidth * index, behavior: "smooth" });
+    });
+  });
+
+  // 时光胶囊
+  function renderCapsule() {
+    const el = document.getElementById("box-capsule-content");
+    if (!el) return;
+    const data = getTimeCapsule();
+    el.innerHTML = [data.day, data.week, data.month, data.year]
+      .map(
+        (item) => `
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:2px;font-size:0.8rem">
+          <span style="color:rgba(255,255,255,0.7)">${item.name}</span>
+          <span style="color:rgba(255,255,255,0.4);font-size:0.7rem">已过${item.passed} 剩余${item.remaining}</span>
+        </div>
+        <div style="width:100%;height:6px;background:rgba(0,0,0,0.2);border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:${item.percentage}%;background:linear-gradient(90deg,#4facfe,#00f2fe);border-radius:3px"></div>
+        </div>
+      </div>`
+      )
+      .join("");
+  }
+  renderCapsule();
+
+  // 一言
+  async function fetchBoxHitokoto() {
+    try {
+      const data = await getHitokoto();
+      const textEl = document.getElementById("box-hito-text");
+      const fromEl = document.getElementById("box-hito-from");
+      if (textEl) textEl.textContent = data.hitokoto;
+      if (fromEl) fromEl.textContent = data.from ? `—— ${data.from}` : "";
+    } catch {
+      const textEl = document.getElementById("box-hito-text");
+      if (textEl) textEl.textContent = "加载失败，请稍后重试";
+    }
+  }
+  fetchBoxHitokoto();
+
+  document.getElementById("box-hito-btn")?.addEventListener("click", fetchBoxHitokoto);
+</script>

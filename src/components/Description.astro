@@ -1,0 +1,94 @@
+---
+// Description 组件 - 站点介绍
+---
+
+<div id="description" class="description">
+  <img
+    id="desc-logo"
+    class="desc-logo"
+    src="/images/icon/logo.svg"
+    alt="logo"
+    title="点击切换"
+  />
+  <div id="desc-hello" class="desc-hello"></div>
+  <div class="desc-text" id="desc-text"></div>
+</div>
+
+<style>
+  .description {
+    text-align: center;
+  }
+
+  .desc-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s;
+    object-fit: cover;
+  }
+
+  .desc-logo:hover {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .desc-logo:active {
+    transform: scale(0.95);
+  }
+
+  .desc-hello {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-top: 12px;
+    font-family: "Pacifico-Regular", cursive;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .desc-text {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 6px;
+    font-family: "HarmonyOS_Regular", sans-serif;
+  }
+
+  @media (max-width: 720px) {
+    .desc-logo {
+      width: 60px;
+      height: 60px;
+    }
+    .desc-hello {
+      font-size: 1.3rem;
+    }
+  }
+</style>
+
+<script>
+  const hello = import.meta.env.PUBLIC_DESC_HELLO || "Hello World !";
+  const text = import.meta.env.PUBLIC_DESC_TEXT || "一个建立于 21 世纪的小站，存活于互联网的边缘";
+  const helloOther = import.meta.env.PUBLIC_DESC_HELLO_OTHER || "Oops !";
+  const textOther = import.meta.env.PUBLIC_DESC_TEXT_OTHER || "哎呀，这都被你发现了（ 再点击一次可关闭 ）";
+
+  const helloEl = document.getElementById("desc-hello");
+  const textEl = document.getElementById("desc-text");
+  const logoEl = document.getElementById("desc-logo");
+
+  let isAlt = false;
+
+  function updateDesc() {
+    if (isAlt) {
+      helloEl.textContent = helloOther;
+      textEl.textContent = textOther;
+    } else {
+      helloEl.textContent = hello;
+      textEl.textContent = text;
+    }
+  }
+
+  updateDesc();
+
+  logoEl?.addEventListener("click", () => {
+    isAlt = !isAlt;
+    updateDesc();
+  });
+</script>

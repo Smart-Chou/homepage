@@ -1,0 +1,44 @@
+---
+// 全局布局
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href={import.meta.env.PUBLIC_SITE_LOGO || "/images/icon/favicon.ico"} />
+    <link rel="apple-touch-icon" href={import.meta.env.PUBLIC_SITE_APPLE_LOGO || "/images/icon/apple-touch-icon.png"} />
+    <link rel="bookmark" href={import.meta.env.PUBLIC_SITE_APPLE_LOGO || "/images/icon/apple-touch-icon.png"} />
+    <link rel="apple-touch-icon-precomposed" sizes="200x200" href={import.meta.env.PUBLIC_SITE_APPLE_LOGO || "/images/icon/apple-touch-icon.png"} />
+    <meta name="description" content={import.meta.env.PUBLIC_SITE_DES || "一个默默无闻的主页"} />
+    <meta name="keywords" content={import.meta.env.PUBLIC_SITE_KEYWORDS || "个人主页"} />
+    <meta name="author" content={import.meta.env.PUBLIC_SITE_AUTHOR || "marxchou"} />
+    <meta name="theme-color" content="#424242" />
+    <title>{import.meta.env.PUBLIC_SITE_NAME || "無名の主页"}</title>
+    <!-- HarmonyOS Sans -->
+    <link rel="stylesheet" href="https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" />
+    <!-- IE Out -->
+    <script>
+      if (/*@cc_on!@*/ false || (!!window.MSInputMethodContext && !!document.documentMode))
+        window.location.href =
+          'https://support.dmeng.net/upgrade-your-browser.html?referrer=' +
+          encodeURIComponent(window.location.href);
+    </script>
+  </head>
+
+  <body>
+    <div id="app">
+      <slot />
+    </div>
+    <!-- noscript -->
+    <noscript>
+      <div style="text-align: center">请开启 JavaScript</div>
+    </noscript>
+  </body>
+</html>
+
+<style is:global>
+  /* 全局样式由 style.scss 处理 */
+</style>
