@@ -1,4 +1,19 @@
 {
   "title": "skills",
-  "items": []
+  "items": [
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Vue",
+    "Astro",
+    "Node.js",
+    "Python",
+    "Go",
+    "Docker",
+    "PostgreSQL",
+    "MongoDB",
+    "Redis",
+    "Linux",
+    "Git"
+  ]
 }

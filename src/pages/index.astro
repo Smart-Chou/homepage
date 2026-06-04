@@ -1,39 +1,18 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import WeatherTime from '../components/left/WeatherTime.jsx';
-import Hitokoto from '../components/left/Hitokoto.jsx';
-import Progress from '../components/left/Progress.astro';
-import Music from '../components/left/Music.jsx';
-import Profile from '../components/right/Profile.astro';
-import Skills from '../components/right/Skills.astro';
-import Projects from '../components/right/Projects.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Avatar from '../components/Avatar.astro';
+import Intro from '../components/Intro.astro';
+import LinkGrid from '../components/LinkGrid.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <MainLayout>
-  <!-- Left column: widgets -->
-  <Fragment slot="left">
-    <WeatherTime client:visible />
-    <Hitokoto client:visible />
-    <Progress />
-    <Music client:visible />
-  </Fragment>
-
-  <!-- Right column: info -->
-  <Fragment slot="right">
-    <Profile />
-    <Skills />
-    <Projects />
-  </Fragment>
-
-  <!-- Footer -->
-  <Fragment slot="footer">
-    <span>&copy; {new Date().getFullYear()} &middot; Powered by Astro</span>
-    <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme"></button>
-  </Fragment>
+  <ThemeToggle slot="toggle" />
+  <Avatar />
+  <Intro />
+  <LinkGrid />
+  <SocialLinks />
+  <Footer />
 </MainLayout>
-
-<style>
-  .theme-btn {
-    display: none; /* hidden in v1, reserved for light theme */
-  }
-</style>

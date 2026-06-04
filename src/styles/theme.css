@@ -1,52 +1,60 @@
 /*
- * CSS Variables — inherited from ZYYO666 dark theme
- * Switch via html[data-theme="Light"] for future light mode
+ * mcc.im Theme System
+ * Monochrome + Blue accent · Motion-Driven Minimalism
+ * Design System: ui-ux-pro-max
  */
 
 :root {
+  /* Surface */
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --card-bg-hover: #f4f4f5;
+
   /* Text */
-  --main_text_color: #fff;
-  --footer_text_color: #646464;
+  --text: #18181b;
+  --text-secondary: #3f3f46;
+  --text-muted: #71717a;
 
-  /* Gradient title — ZYYO666 signature */
-  --gradient: linear-gradient(120deg, rgb(133, 62, 255), #f76cc6 30%, rgb(255, 255, 255) 60%);
+  /* Accent — Blue */
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-soft: rgba(37, 99, 235, 0.08);
 
-  /* Accent */
-  --purple_text_color: #747bff;
-  --text_bg_color: rgb(26, 4, 48);
+  /* Border & Shadow */
+  --border: #e4e4e7;
+  --border-hover: #d4d4d8;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
 
-  /* Cards */
-  --item_bg_color: rgb(19, 20, 24);
-  --item_hover_color: rgb(19, 23, 27);
-  --item_left_title_color: rgb(255, 255, 255);
-  --item_left_text_color: rgb(142, 142, 142);
+  /* Blur backdrop */
+  --blur-bg: rgba(255, 255, 255, 0.72);
 
-  /* Tags */
-  --left_tag_item: linear-gradient(50deg, #1f2327, #000000);
-
-  /* Blur filters */
-  --card_filter: 10px;
-  --back_filter: 0px;
-  --back_filter_color: #000000;
-
-  /* SVG icon fill */
-  --fill: #ffffff;
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
 }
 
-/* Future light theme switch */
-html[data-theme="Light"] {
-  --main_text_color: #000000;
-  --gradient: linear-gradient(120deg, #bd34fe, #e0321b 30%, #41d1ff 60%);
-  --purple_text_color: #747bff;
-  --text_bg_color: rgb(240, 243, 247);
-  --item_bg_color: rgb(247, 247, 247);
-  --item_hover_color: rgba(244, 245, 246, 0.5);
-  --item_left_title_color: #000000;
-  --item_left_text_color: #494949;
-  --footer_text_color: #222222;
-  --left_tag_item: #ffffff;
-  --card_filter: 0px;
-  --back_filter: 0px;
-  --back_filter_color: #00000000;
-  --fill: #000000;
+[data-theme='dark'] {
+  --bg: #09090b;
+  --card-bg: #18181b;
+  --card-bg-hover: #27272a;
+
+  --text: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-soft: rgba(59, 130, 246, 0.12);
+
+  --border: #27272a;
+  --border-hover: #3f3f46;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  --blur-bg: rgba(24, 24, 27, 0.72);
 }

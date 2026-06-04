@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "name": "博客",
+    "url": "https://marxchou.com",
+    "icon": "blog"
+  },
+  {
+    "name": "GitHub",
+    "url": "https://github.com/ZYYO666",
+    "icon": "github"
+  }
+]

@@ -1,7 +1,7 @@
 {
-  "name": "homepage",
+  "name": "mcc-homepage",
   "version": "1.0.0",
-  "description": "",
+  "description": "mcc.im personal homepage",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -12,9 +12,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@astrojs/preact": "^5.1.4",
-    "astro": "^6.4.2",
-    "preact": "^10.29.2"
+    "astro": "^6.4.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
