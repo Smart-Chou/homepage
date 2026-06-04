@@ -85,18 +85,11 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
   <main id="main">
     <div class="container" id="main-container">
       <section class="all" id="main-all">
-        <!-- 左侧面板 -->
-        <div class="left-panel">
+        <!-- 主面板 -->
+        <div class="main-panel" id="main-panel">
           <Clock />
           <Description />
           <SocialLinks />
-        </div>
-
-        <!-- 右侧面板 -->
-        <div class="right-panel" id="right-panel">
-          <div class="right-header">
-            <Settings />
-          </div>
           <Hitokoto />
           <SiteLinks />
           <button class="more-btn" id="more-btn" title="更多">
@@ -105,6 +98,9 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
             </svg>
             <span>更多</span>
           </button>
+          <div class="main-settings" id="main-settings">
+            <Settings />
+          </div>
         </div>
 
         <!-- 功能盒子 -->
@@ -121,13 +117,6 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
       <!-- 更多设置（覆盖层） -->
       <AdvancedSettings />
     </div>
-
-    <!-- 移动端菜单按钮 -->
-    <button class="mobile-menu-btn" id="mobile-menu-btn" title="菜单">
-      <svg id="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    </button>
 
     <!-- 页脚 -->
     <Footer />
