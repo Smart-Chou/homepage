@@ -131,11 +131,15 @@
     dots.forEach((d, i) => d.classList.toggle("active", i === index));
   });
 
+  const s = slides;
   dots.forEach((dot) => {
-    dot.addEventListener("click", () => {
-      const index = parseInt(dot.dataset.index);
-      slides.scrollTo({ left: slides.clientWidth * index, behavior: "smooth" });
-    });
+    if (dot instanceof HTMLElement) {
+      dot.addEventListener("click", () => {
+        if (!s) return;
+        const index = parseInt(dot.dataset.index || "0");
+        s.scrollTo({ left: s.clientWidth * index, behavior: "smooth" });
+      });
+    }
   });
 
   // 时光胶囊

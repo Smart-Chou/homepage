@@ -175,7 +175,9 @@
   const blurToggle = document.getElementById("footer-blur-toggle");
 
   // 初始化
-  blurToggle.checked = window.__STATE__?.footerBlur !== false;
+  if (blurToggle instanceof HTMLInputElement) {
+    blurToggle.checked = window.__STATE__.footerBlur !== false;
+  }
 
   function close() {
     settings?.classList.remove("open");
@@ -186,19 +188,21 @@
   closeBtn?.addEventListener("click", close);
 
   // 底栏模糊开关
-  blurToggle?.addEventListener("change", () => {
-    window.saveState("footerBlur", blurToggle.checked);
-    const footerInner = document.querySelector(".footer-inner");
-    if (footerInner) {
-      if (blurToggle.checked) {
-        footerInner.style.backdropFilter = "blur(10px)";
-        footerInner.style.background = "rgba(0, 0, 0, 0.25)";
-      } else {
-        footerInner.style.backdropFilter = "none";
-        footerInner.style.background = "rgba(0, 0, 0, 0.4)";
+  if (blurToggle instanceof HTMLInputElement) {
+    blurToggle.addEventListener("change", () => {
+      window.saveState("footerBlur", blurToggle.checked);
+      const footerInner = document.querySelector(".footer-inner");
+      if (footerInner instanceof HTMLElement) {
+        if (blurToggle.checked) {
+          footerInner.style.backdropFilter = "blur(10px)";
+          footerInner.style.background = "rgba(0, 0, 0, 0.25)";
+        } else {
+          footerInner.style.backdropFilter = "none";
+          footerInner.style.background = "rgba(0, 0, 0, 0.4)";
+        }
       }
-    }
-  });
+    });
+  }
 
   // 外部打开
   window.addEventListener("openAdvancedSettings", () => {

@@ -110,13 +110,13 @@
       progress = 90;
       clearInterval(progressTimer);
     }
-    barEl.style.width = Math.min(progress, 100) + "%";
+    if (barEl) barEl.style.width = Math.min(progress, 100) + "%";
   }, 200);
 
   // 监听壁纸加载完成
   window.addEventListener("bgLoaded", () => {
     clearInterval(progressTimer);
-    barEl.style.width = "100%";
+    if (barEl) barEl.style.width = "100%";
 
     setTimeout(() => {
       loadingEl?.classList.add("hide");

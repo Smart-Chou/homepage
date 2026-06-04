@@ -46,14 +46,18 @@
 
 <script>
   const TOTAL_IMAGES = 10;
+  /** @type {Record<string, () => number>} */
   const COVER_TYPES = {
-    "0": () => Math.floor(Math.random() * TOTAL_IMAGES) + 1,  // 随机
+    "0": () => Math.floor(Math.random() * TOTAL_IMAGES) + 1,
     "1": () => 1, "2": () => 2, "3": () => 3,
     "4": () => 4, "5": () => 5, "6": () => 6,
     "7": () => 7, "8": () => 8, "9": () => 9,
     "10": () => 10,
   };
 
+  /**
+   * @param {string} type
+   */
   function getBgUrl(type) {
     const getNum = COVER_TYPES[type] || COVER_TYPES["0"];
     const num = getNum();
@@ -71,19 +75,18 @@
   // 预加载图片
   const img = new Image();
   img.onload = () => {
-    bgImg.src = url;
-    // 派发加载完成事件
+    if (bgImg instanceof HTMLImageElement) bgImg.src = url;
     window.dispatchEvent(new CustomEvent("bgLoaded"));
   };
   img.onerror = () => {
-    // 加载失败用默认壁纸
-    bgImg.src = "/images/background1.jpg";
+    if (bgImg instanceof HTMLImageElement) bgImg.src = "/images/background1.jpg";
     window.dispatchEvent(new CustomEvent("bgLoaded"));
   };
   img.src = url;
 
   // 响应式壁纸切换
   if (isMobile()) {
-    document.getElementById("bg-mask").style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+    const mask = document.getElementById("bg-mask");
+    if (mask instanceof HTMLElement) mask.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
   }
 </script>

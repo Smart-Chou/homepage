@@ -65,7 +65,7 @@
     const secondEl = document.getElementById("clock-second");
     const weekdayEl = document.getElementById("clock-weekday");
 
-    if (yearEl) yearEl.textContent = t.year;
+    if (yearEl) yearEl.textContent = String(t.year);
     if (monthEl) monthEl.textContent = t.month;
     if (dayEl) dayEl.textContent = t.day;
     if (hourEl) hourEl.textContent = t.hour;

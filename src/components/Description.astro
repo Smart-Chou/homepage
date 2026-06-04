@@ -77,11 +77,11 @@
 
   function updateDesc() {
     if (isAlt) {
-      helloEl.textContent = helloOther;
-      textEl.textContent = textOther;
+      if (helloEl) helloEl.textContent = helloOther;
+      if (textEl) textEl.textContent = textOther;
     } else {
-      helloEl.textContent = hello;
-      textEl.textContent = text;
+      if (helloEl) helloEl.textContent = hello;
+      if (textEl) textEl.textContent = text;
     }
   }
 

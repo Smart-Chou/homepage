@@ -170,33 +170,44 @@
   const coverSelect = document.getElementById("cover-select");
   const siteToggle = document.getElementById("site-start-toggle");
 
-  // 初始化
-  coverSelect.value = window.__STATE__?.coverType || "0";
-  siteToggle.checked = window.__STATE__?.siteStartShow || false;
+  // 初始化（state 已由内联脚本同步加载）
+  if (coverSelect instanceof HTMLSelectElement) {
+    coverSelect.value = window.__STATE__.coverType || "0";
+  }
+  if (siteToggle instanceof HTMLInputElement) {
+    siteToggle.checked = window.__STATE__.siteStartShow || false;
+  }
 
   // 切换面板
-  btn?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    panel?.classList.toggle("open");
-  });
+  if (btn && panel) {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      panel.classList.toggle("open");
+    });
 
-  // 点击外部关闭
-  document.addEventListener("click", (e) => {
-    if (!panel?.contains(e.target) && e.target !== btn) {
-      panel?.classList.remove("open");
-    }
-  });
+    // 点击外部关闭
+    document.addEventListener("click", (e) => {
+      const { target } = e;
+      if (target instanceof Node && !panel.contains(target) && target !== btn) {
+        panel.classList.remove("open");
+      }
+    });
+  }
 
   // 壁纸类型变更
-  coverSelect?.addEventListener("change", () => {
-    window.saveState("coverType", coverSelect.value);
-    window.notify("coverChanged", { type: coverSelect.value });
-    panel?.classList.remove("open");
-  });
+  if (coverSelect instanceof HTMLSelectElement) {
+    coverSelect.addEventListener("change", () => {
+      window.saveState("coverType", coverSelect.value);
+      window.notify("coverChanged", { type: coverSelect.value });
+      if (panel) panel.classList.remove("open");
+    });
+  }
 
   // 建站日期开关
-  siteToggle?.addEventListener("change", () => {
-    window.saveState("siteStartShow", siteToggle.checked);
-    window.notify("siteStartChanged", { show: siteToggle.checked });
-  });
+  if (siteToggle instanceof HTMLInputElement) {
+    siteToggle.addEventListener("change", () => {
+      window.saveState("siteStartShow", siteToggle.checked);
+      window.notify("siteStartChanged", { show: siteToggle.checked });
+    });
+  }
 </script>
