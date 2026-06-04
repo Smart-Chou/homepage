@@ -10,7 +10,6 @@ import Description from "../components/Description.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import SiteLinks from "../components/SiteLinks.astro";
 import Hitokoto from "../components/Hitokoto.astro";
-import TimeCapsule from "../components/TimeCapsule.astro";
 import Settings from "../components/Settings.astro";
 import Footer from "../components/Footer.astro";
 import FeatureBox from "../components/FeatureBox.astro";
@@ -331,14 +330,12 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
 
   const main = document.getElementById("main");
   const mainContainer = document.getElementById("main-container");
-  const mainAll = document.getElementById("main-all");
   const rightPanel = document.getElementById("right-panel");
   const boxPanel = document.getElementById("box-panel");
   const moreBtn = document.getElementById("more-btn");
   const boxBackBtn = document.getElementById("box-back-btn");
   const mobileMenuBtn = document.getElementById("mobile-menu-btn");
   const mobileMenuIcon = document.getElementById("mobile-menu-icon");
-  const footer = document.getElementById("footer");
   const advanced = document.getElementById("advanced-settings");
 
   const S = window.__STATE__;
@@ -348,9 +345,9 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
     window.setInnerWidth(window.innerWidth);
   }
 
-  // Loading 完成后的处理
-  window.addEventListener("loadComplete", () => {
-    main?.classList.add("visible");
+  // 页面初始化（所有功能入口）
+  function initPage() {
+    if (main) main.classList.add("visible");
 
     // 自定义鼠标
     cursorInit();
@@ -376,16 +373,19 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
     const styleTitle1 = "font-size: 20px;font-weight: 600;color: rgb(244,167,89);";
     const styleTitle2 = "font-size:12px;color: rgb(244,167,89);";
     const styleContent = "color: rgb(30,152,255);";
-    const title1 = "無名の主页";
-    const title2 = `
- _____ __  __  _______     ____     __
-|_   _|  \\/  |/ ____\\ \\   / /\\ \\   / /
-  | | | \\  / | (___  \\ \\_/ /  \\ \\_/ /
-  | | | |\\/| |\\___ \\  \\   /    \\   /
- _| |_| |  | |____) |  | |      | |
-|_____|_|  |_|_____/   |_|      |_|`;
-    console.info(`%c${title1} %c${title2} %c\n\n版本: 4.1.4`, styleTitle1, styleTitle2, styleContent);
-  });
+    console.info(
+      `%c無名の主页 %c\n _____ __  __  _______     ____     __\n|_   _|  \\/  |/ ____\\ \\   / /\\ \\   / /\n  | | | \\  / | (___  \\ \\_/ /  \\ \\_/ /\n  | | | |\\/| |\\___ \\  \\   /    \\   /\n _| |_| |  | |____) |  | |      | |\n|_____|_|  |_|_____/   |_|      |_| %c\n\n版本: 4.1.4`,
+      styleTitle1, styleTitle2, styleContent
+    );
+  }
+
+  // 注册 loadComplete 监听（正常流程）
+  window.addEventListener("loadComplete", initPage);
+
+  // 兜底：如果 loadComplete 已经触发过（缓存图片导致），直接初始化
+  if (S.imgLoadStatus) {
+    initPage();
+  }
 
   // more 按钮 → 打开功能盒子
   moreBtn?.addEventListener("click", () => {
@@ -405,7 +405,6 @@ import AdvancedSettings from "../components/AdvancedSettings.astro";
   mobileMenuBtn?.addEventListener("click", () => {
     S.mobileFuncState = !S.mobileFuncState;
     window.dispatchEvent(new CustomEvent("toggleMobileFunc"));
-    // 切换图标
     if (S.mobileFuncState) {
       if (mobileMenuIcon) mobileMenuIcon.innerHTML = `<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>`;
     } else {

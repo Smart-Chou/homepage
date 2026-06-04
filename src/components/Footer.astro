@@ -89,10 +89,29 @@ const siteStart = import.meta.env.PUBLIC_SITE_START || "";
   const uptimeEl = document.getElementById("footer-uptime");
   const startDate = uptimeEl?.dataset.start;
 
-  if (startDate && uptimeEl) {
+  function updateUptime() {
+    if (!startDate || !uptimeEl) return;
     const date = new Date(startDate);
     if (!isNaN(date.getTime())) {
       uptimeEl.textContent = siteDateStatistics(date);
     }
+    // 根据设置显示/隐藏
+    uptimeEl.style.display = window.__STATE__?.siteStartShow ? "" : "none";
   }
+
+  updateUptime();
+
+  // 监听建站日期显示开关
+  window.addEventListener("siteStartChanged", (e) => {
+    if (!uptimeEl || !startDate) return;
+    if (e.detail?.show) {
+      const date = new Date(startDate);
+      if (!isNaN(date.getTime())) {
+        uptimeEl.textContent = siteDateStatistics(date);
+      }
+      uptimeEl.style.display = "";
+    } else {
+      uptimeEl.style.display = "none";
+    }
+  });
 </script>

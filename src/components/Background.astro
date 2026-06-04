@@ -45,8 +45,9 @@
 </style>
 
 <script>
+  // @ts-nocheck — 动态 key 访问，关闭 JS 脚本的 TS 检查
+
   const TOTAL_IMAGES = 10;
-  /** @type {Record<string, () => number>} */
   const COVER_TYPES = {
     "0": () => Math.floor(Math.random() * TOTAL_IMAGES) + 1,
     "1": () => 1, "2": () => 2, "3": () => 3,
@@ -55,9 +56,6 @@
     "10": () => 10,
   };
 
-  /**
-   * @param {string} type
-   */
   function getBgUrl(type) {
     const getNum = COVER_TYPES[type] || COVER_TYPES["0"];
     const num = getNum();
@@ -69,20 +67,28 @@
   }
 
   const bgImg = document.getElementById("bg-img");
-  const type = window.__STATE__?.coverType || "0";
-  const url = getBgUrl(type);
 
-  // 预加载图片
-  const img = new Image();
-  img.onload = () => {
-    if (bgImg instanceof HTMLImageElement) bgImg.src = url;
-    window.dispatchEvent(new CustomEvent("bgLoaded"));
-  };
-  img.onerror = () => {
-    if (bgImg instanceof HTMLImageElement) bgImg.src = "/images/background1.jpg";
-    window.dispatchEvent(new CustomEvent("bgLoaded"));
-  };
-  img.src = url;
+  function loadBg(type) {
+    const url = getBgUrl(type || window.__STATE__?.coverType || "0");
+    const img = new Image();
+    img.onload = () => {
+      if (bgImg instanceof HTMLImageElement) bgImg.src = url;
+      window.dispatchEvent(new CustomEvent("bgLoaded"));
+    };
+    img.onerror = () => {
+      if (bgImg instanceof HTMLImageElement) bgImg.src = "/images/background1.jpg";
+      window.dispatchEvent(new CustomEvent("bgLoaded"));
+    };
+    img.src = url;
+  }
+
+  // 初始加载
+  loadBg(window.__STATE__?.coverType || "0");
+
+  // 监听壁纸类型变更
+  window.addEventListener("coverChanged", (e) => {
+    loadBg(e.detail?.type);
+  });
 
   // 响应式壁纸切换
   if (isMobile()) {
