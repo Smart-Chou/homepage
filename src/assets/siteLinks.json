@@ -10,28 +10,8 @@
     "link": "https://memos.marxchou.com/"
   },
   {
-    "icon": "Cloud",
-    "name": "网盘",
-    "link": "https://drive.marxchou.com/"
-  },
-  {
-    "icon": "ImagesRegular",
-    "name": "图床",
-    "link": "https://pic.marxchou.com/"
-  },
-  {
     "icon": "Staylinked",
     "name": "短链接",
-    "link": "https://go.mch.icu/"
-  },
-  {
-    "icon": "Image",
-    "name": "随机图片",
-    "link": "https://pic.mch.icu/"
-  },
-  {
-    "icon": "LaptopCode",
-    "name": "站点监测",
-    "link": "https://status.marxchou.com/"
+    "link": "https://tohere.in/"
   }
 ]

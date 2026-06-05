@@ -8,7 +8,7 @@
     class="desc-logo"
     src="/images/icon/logo.svg"
     alt="logo"
-    title="点击切换"
+    title="点击查看自我介绍"
   />
   <div id="desc-hello" class="desc-hello"></div>
   <div class="desc-text" id="desc-text"></div>
@@ -24,12 +24,15 @@
     height: 100px;
     border-radius: 50%;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
     object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
   }
 
   .desc-logo:hover {
     transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.15);
   }
 
   .desc-logo:active {
@@ -65,30 +68,20 @@
 
 <script>
   const hello = import.meta.env.PUBLIC_DESC_HELLO || "Hello World !";
-  const text = import.meta.env.PUBLIC_DESC_TEXT || "一个建立于 21 世纪的小站，存活于互联网的边缘";
-  const helloOther = import.meta.env.PUBLIC_DESC_HELLO_OTHER || "Oops !";
-  const textOther = import.meta.env.PUBLIC_DESC_TEXT_OTHER || "哎呀，这都被你发现了（ 再点击一次可返回 ）";
+  const text =
+    import.meta.env.PUBLIC_DESC_TEXT ||
+    "一个建立于 21 世纪的小站，存活于互联网的边缘";
 
   const helloEl = document.getElementById("desc-hello");
   const textEl = document.getElementById("desc-text");
   const logoEl = document.getElementById("desc-logo");
 
-  let isAlt = false;
+  // 设置正面文字
+  if (helloEl) helloEl.textContent = hello;
+  if (textEl) textEl.textContent = text;
 
-  function updateDesc() {
-    if (isAlt) {
-      if (helloEl) helloEl.textContent = helloOther;
-      if (textEl) textEl.textContent = textOther;
-    } else {
-      if (helloEl) helloEl.textContent = hello;
-      if (textEl) textEl.textContent = text;
-    }
-  }
-
-  updateDesc();
-
+  // 点击 LOGO → 触发主面板左滑
   logoEl?.addEventListener("click", () => {
-    isAlt = !isAlt;
-    updateDesc();
+    window.dispatchEvent(new CustomEvent("desc-logo-click"));
   });
 </script>

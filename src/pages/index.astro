@@ -10,6 +10,11 @@ import SocialLinks from "../components/SocialLinks.astro";
 import SiteLinks from "../components/SiteLinks.astro";
 import Hitokoto from "../components/Hitokoto.astro";
 import Footer from "../components/Footer.astro";
+
+const introTitle = import.meta.env.PUBLIC_DESC_INTRO_TITLE || '🙋 关于我';
+const introText =
+  import.meta.env.PUBLIC_DESC_INTRO_TEXT ||
+  '嗨！我是一名热爱技术与生活的全栈开发者，专注于 Web 开发和用户体验设计。这个站点是我在互联网世界的一个小小角落，记录着我的思考、学习和创作。我喜欢探索新技术、阅读、旅行，也享受在开源社区中贡献自己的力量。欢迎常来逛逛，也期待和你交流！';
 ---
 
 <BaseLayout>
@@ -73,12 +78,29 @@ import Footer from "../components/Footer.astro";
   <main id="main">
     <div class="container" id="main-container">
       <section class="all" id="main-all">
-        <!-- 主面板 -->
-        <div class="main-panel" id="main-panel">
-          <Description />
-          <SocialLinks />
-          <Hitokoto />
-          <SiteLinks />
+        <!-- 滑动容器 -->
+        <div class="main-slider-wrapper" id="main-slider-wrapper">
+          <div class="main-slider" id="main-slider">
+            <!-- 左栏：主面板 -->
+            <div class="main-panel" id="main-panel">
+              <Description />
+              <SocialLinks />
+              <Hitokoto />
+              <SiteLinks />
+            </div>
+
+            <!-- 右栏：自我介绍 -->
+            <div class="intro-panel" id="intro-panel">
+              <div class="intro-content">
+                <h3 class="intro-title">{introTitle}</h3>
+                <p class="intro-text">{introText}</p>
+                <button class="intro-back-btn" id="intro-back-btn">
+                  <span class="intro-back-arrow">←</span>
+                  <span>返回</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -124,21 +146,135 @@ import Footer from "../components/Footer.astro";
     align-items: center;
   }
 
-  /* 单栏主面板 */
+  /* ===== 滑动容器 ===== */
+  .main-slider-wrapper {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .main-slider {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    width: max-content;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden; /* JS 定位完成后显示 */
+    will-change: transform;
+  }
+
+  /* ===== 左栏：主面板 ===== */
   .main-panel {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 22px;
-    max-width: 560px;
-    width: 100%;
+    width: 560px;
     padding: 40px 20px;
+    flex-shrink: 0;
   }
 
+  /* ===== 右栏：自我介绍面板（默认隐藏，展开后显示） ===== */
+  .intro-panel {
+    width: 460px;
+    padding: 40px 28px;
+    flex-shrink: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease 0.15s;
+  }
 
+  .main-slider.is-slid .intro-panel {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .intro-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .intro-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin: 0 0 20px;
+    font-family: "HarmonyOS_Regular", sans-serif;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .intro-text {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.9;
+    margin: 0 0 32px;
+    font-family: "HarmonyOS_Regular", sans-serif;
+    text-align: left;
+    text-indent: 2em;
+  }
+
+  /* 返回按钮 - 毛玻璃效果 */
+  .intro-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 9px 28px;
+    border-radius: 24px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: "HarmonyOS_Regular", sans-serif;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    outline: none;
+  }
+
+  .intro-back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .intro-back-btn:active {
+    transform: scale(0.95);
+  }
+
+  .intro-back-arrow {
+    font-size: 1rem;
+    transition: transform 0.3s;
+  }
+
+  .intro-back-btn:hover .intro-back-arrow {
+    transform: translateX(-3px);
+  }
+
+  /* ===== 响应式 ===== */
   @media (max-width: 1200px) {
     .container {
       padding: 0 2vw;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .main-panel {
+      width: 480px;
+    }
+    .intro-panel {
+      width: 400px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .main-panel {
+      width: 380px;
+    }
+    .intro-panel {
+      width: 340px;
     }
   }
 
@@ -146,9 +282,37 @@ import Footer from "../components/Footer.astro";
     .all {
       padding: 0 1rem;
     }
+
+    .main-slider {
+      gap: 28px;
+    }
+
     .main-panel {
+      width: calc(100vw - 40px);
       padding: 20px 10px;
       gap: 12px;
+    }
+
+    .intro-panel {
+      width: calc(100vw - 40px);
+      padding: 30px 20px;
+    }
+
+    .intro-title {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    .intro-text {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .intro-back-btn {
+      padding: 7px 22px;
+      font-size: 0.85rem;
     }
   }
 
@@ -212,6 +376,9 @@ import Footer from "../components/Footer.astro";
       `%c無名の主页 %c\n _____ __  __  _______     ____     __\n|_   _|  \\/  |/ ____\\ \\   / /\\ \\   / /\n  | | | \\  / | (___  \\ \\_/ /  \\ \\_/ /\n  | | | |\\/| |\\___ \\  \\   /    \\   /\n _| |_| |  | |____) |  | |      | |\n|_____|_|  |_|_____/   |_|      |_| %c\n\n版本: 4.1.4`,
       styleTitle1, styleTitle2, styleContent
     );
+
+    // 双栏滑动初始化
+    initSlider();
   }
 
   // 注册 loadComplete 监听（正常流程）
@@ -222,4 +389,71 @@ import Footer from "../components/Footer.astro";
     initPage();
   }
 
+  // ===== 双栏滑动逻辑 =====
+  function initSlider() {
+    const wrapper = document.getElementById("main-slider-wrapper");
+    const slider = document.getElementById("main-slider");
+    const mainPanel = document.getElementById("main-panel");
+    const introPanel = document.getElementById("intro-panel");
+    const backBtn = document.getElementById("intro-back-btn");
+
+    if (!wrapper || !slider || !mainPanel || !introPanel) return;
+
+    let isSlid = false;
+
+    function getGap() {
+      return window.innerWidth >= 720 ? 48 : 24;
+    }
+
+    function applyPosition() {
+      const wW = wrapper!.offsetWidth;
+      const mW = mainPanel!.offsetWidth;
+      const gap = getGap();
+
+      if (isSlid) {
+        // 先用 CSS 默认宽度测量，判断双栏能否放下
+        introPanel!.style.width = "";
+        const iW = introPanel!.offsetWidth;
+        const pairW = mW + gap + iW;
+
+        if (pairW > wW) {
+          // 移动端：让自我介绍宽度 = wrapper 宽度，完美填充
+          introPanel!.style.width = wW + "px";
+          slider!.style.transform = `translateX(${-(mW + gap)}px)`;
+        } else {
+          // 桌面端：双栏对称居中
+          slider!.style.transform = `translateX(${(wW - pairW) / 2}px)`;
+        }
+      } else {
+        // 默认：主面板居中
+        introPanel!.style.width = "";
+        slider!.style.transform = `translateX(${Math.max(0, (wW - mW) / 2)}px)`;
+      }
+
+      slider!.classList.toggle("is-slid", isSlid);
+    }
+
+    // 初始定位
+    applyPosition();
+    slider.style.visibility = "visible";
+
+    // LOGO 点击 → 左滑 / 右滑
+    window.addEventListener("desc-logo-click", () => {
+      isSlid = !isSlid;
+      applyPosition();
+    });
+
+    // 返回按钮
+    backBtn?.addEventListener("click", () => {
+      isSlid = false;
+      applyPosition();
+    });
+
+    // 窗口大小变化时重算（防抖）
+    let resizeTimer: ReturnType<typeof setTimeout> | undefined;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(applyPosition, 150);
+    });
+  }
 </script>
